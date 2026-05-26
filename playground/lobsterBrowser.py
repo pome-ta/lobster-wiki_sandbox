@@ -309,7 +309,8 @@ class WebViewController(UIViewController):
       allowingReadAccessToURL=allowingReadAccessToURL,
     )
 
-    self.view.backgroundColor = UIColor.systemDarkPinkColor()
+    self.view.backgroundColor = UIColor.systemBackgroundColor()
+
 
     self.setupBarButtonItems()
     self.setupLayoutConstraint()
