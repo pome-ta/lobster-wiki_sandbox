@@ -1,8 +1,5 @@
 # Guide: `guide.md`
 
-
-
-
 ```inject.html
 <div style="padding: 1rem; background: #e0f2fe; border-radius: 8px;">
   <p>がいどここは直接書いたHTMLです！</p>
@@ -16,7 +13,6 @@
   });
 </script>
 ```
-
 
 ```.js
 document.getElementById('my-btn').addEventListener('click', () => {
