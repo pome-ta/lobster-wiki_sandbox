@@ -20,74 +20,58 @@ if __name__ == '__main__' and not __file__[:__file__.rfind('/')].endswith(
       warnings.warn(__warning_message, ImportWarning)
 
 from pyrubicon.objc.api import ObjCClass
+from pyrubicon.objc.api import objc_method
+from pyrubicon.objc.runtime import send_super, load_library
 
-from objc_frameworks.UIKit import UIModalPresentationStyle
+from rbedge import pdbr
 
-from rbedge.lifeCycle import loop
-from rbedge.objcMainThread import onMainThread
-from rbedge.utils import nsurl
-
-SFSafariViewController = ObjCClass('SFSafariViewController')
-UIApplication = ObjCClass('UIApplication')
-NSURL = ObjCClass('NSURL')
+load_library('SafariServices')
 
 
-def get_rootViewController() -> None:
-  sharedApplication = UIApplication.sharedApplication
-  objectEnumerator = sharedApplication.connectedScenes.objectEnumerator()
+class SafariViewController(ObjCClass('SFSafariViewController')):
 
-  while (windowScene := objectEnumerator.nextObject()):
+  @objc_method
+  def viewDidLoad(self):
+    send_super(__class__, self, 'viewDidLoad')
 
-    if windowScene.activationState == 0:
-      break
-  rootViewController = windowScene.keyWindow.rootViewController
-  return rootViewController
-
-
-def main_loop() -> None:
-  try:
-    loop.run_forever()
-  except Exception as e:
-    loop.stop()
-  finally:
-    loop.close()
-
-
-def main(url, modalPresentationStyle):
-
-  rootViewController = get_rootViewController()
-
-  @onMainThread(sync=False)
-  def present_viewController(url, style: int) -> None:
-
-    presentViewController = SFSafariViewController.alloc().initWithURL_(nsurl(url))
-    #presentViewController = SFSafariViewController.alloc().initWithURL_(url)
-    presentViewController.setModalPresentationStyle_(style)
-
-    rootViewController.presentViewController(
-      presentViewController,
+    self.navigationController.setNavigationBarHidden(
+      True,
       animated=True,
-      completion=None,
     )
-    #rootViewController.release()
 
-  present_viewController(url, modalPresentationStyle)
-  main_loop()
+  @objc_method
+  def didReceiveMemoryWarning(self):
+    send_super(__class__, self, 'didReceiveMemoryWarning')
+    print(f'\t{NSStringFromClass(__class__)}: didReceiveMemoryWarning')
 
 
 if __name__ == '__main__':
-
   from pathlib import Path
+
+  from rbedge.app import App
+  from rbedge.utils import nsurl
+  from objc_frameworks.UIKit import UIModalPresentationStyle
+
+  from localServer import LocalServer
+
   ROOT_PATH = Path(__file__).parents[0]
+  index_path = ROOT_PATH / '../docs/'
 
-  index_path = ROOT_PATH / '../docs/index.html'
+  with LocalServer(
+      host='127.0.0.1',
+      port=8000,
+      root_dir=str(index_path.resolve()),
+      verbose=False,
+  ) as server:
 
+    url = 'https://github.com/ColdGrub1384/Pyto'
+    url = server.url
 
-  url = NSURL.fileURLWithPath_isDirectory_(str(index_path.resolve()), False)
-  print(url)
+    main_vc = SafariViewController.alloc().initWithURL_(nsurl(url))
 
-  #url = 'https://developer.mozilla.org/ja/docs/Web/HTML/Reference/Elements/textarea'
-  presentation_style = UIModalPresentationStyle.fullScreen
+    presentation_style = UIModalPresentationStyle.fullScreen
+    #presentation_style = UIModalPresentationStyle.pageSheet
 
-  main(url, presentation_style)
+    app = App(main_vc, presentation_style)
+    app.present()
 
