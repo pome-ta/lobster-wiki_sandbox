@@ -28,8 +28,8 @@
 
       async function setup() {
         // wikiの初期化を待機
-        await initWiki('./wiki.config.json');
-
+        await initWiki('./wiki.config.json').then(() => Prism.highlightAll());
+        
         // メインコンテンツ領域の監視を開始（SPA遷移への対応）
         const main = document.querySelector('.lbw-main');
         if (main) {
