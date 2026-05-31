@@ -1,6 +1,7 @@
 {
   "title": "My Wiki",
   "navigation": "./nav.md",
+  "header": "./header.md",
   "footer": "./footer.md",
   "defaultPage": "intro",
   "tableOfContents": true
