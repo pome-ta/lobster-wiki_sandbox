@@ -2,11 +2,11 @@
 <html lang="ja">
   <head>
     <meta charset="utf-8" />
-
     <meta
       name="viewport"
       content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"
     />
+
     <script type="importmap">
       {
         "imports": {
@@ -14,7 +14,6 @@
         }
       }
     </script>
-
     <script type="module">
       import eruda from 'eruda';
 
@@ -23,54 +22,114 @@
     <script type="module">
       import { initWiki } from 'https://hacknock.github.io/lobster-wiki/lobster-wiki.js';
 
-      // 1. ページ初期化
+      // ==========================================
+      // 1. システムのコア設定 (SPA監視とInject展開)
+      // ==========================================
       setup();
-      //await initWiki('./wiki.config.json').then(() => Prism.highlightAll());
 
       async function setup() {
-        // wikiの初期化を待機
-        await initWiki('./wiki.config.json').then(() => Prism.highlightAll());
-        
-        // メインコンテンツ領域の監視を開始（SPA遷移への対応）
+        await initWiki('./wiki.config.json');
+
         const main = document.querySelector('.lbw-main');
-        if (main) {
-          const observer = new MutationObserver(processInjectBlocks);
+        if (!main) {
+          return;
+        }
+
+        const observer = new MutationObserver(handleDOMChange);
+
+        async function handleDOMChange() {
+          observer.disconnect();
+
+          // Injectブロックの展開を待機
+          await processInjectBlocks();
+
+          // ★ 展開完了を知らせるカスタムイベントを発火
+          document.dispatchEvent(new CustomEvent('wiki-page-rendered'));
+
           observer.observe(main, { childList: true, subtree: true });
         }
 
-        // 初回実行
-        processInjectBlocks();
+        await handleDOMChange();
       }
 
-      function processInjectBlocks() {
-        const blocks = document.querySelectorAll('.lbw-main code.language-inject');
+      async function processInjectBlocks() {
+        const blocks = Array.from(document.querySelectorAll('.lbw-main code.language-inject'));
         let blockCount = 0;
 
-        blocks.forEach((code) => {
-          const wrapper = code.closest('.lbs-code-block');
-          if (!wrapper) return;
+        await Promise.all(
+          blocks.map(async (code) => {
+            const wrapper = code.closest('.lbs-code-block');
+            if (!wrapper) return;
 
-          // 一意のIDを生成し、Markdown内の '__UUID__' を置換
-          const uid = `inject-${Date.now()}-${++blockCount}`;
-          const content = code.textContent.replaceAll('__UUID__', uid);
+            const pre = code.closest('pre');
+            const filename = pre?.getAttribute('data-filename');
 
-          // 展開用コンテナの生成
-          const container = document.createElement('div');
-          container.className = 'custom-injected-html';
-          container.innerHTML = content;
+            // パターンA:外部の .js ファイル
+            if (filename && filename.endsWith('.js')) {
+              const container = document.createElement('div');
+              container.className = 'custom-injected-module';
+              wrapper.replaceWith(container);
 
-          // scriptタグを抽出し、moduleとして再生成・実行
-          container.querySelectorAll('script').forEach((oldScript) => {
-            const newScript = document.createElement('script');
-            newScript.type = oldScript.getAttribute('type') || 'module';
-            newScript.textContent = oldScript.textContent;
-            oldScript.replaceWith(newScript);
-          });
+              try {
+                const module = await import(filename);
+                if (typeof module.default === 'function') {
+                  module.default(container);
+                }
+              } catch (err) {
+                container.innerHTML = `<div style="color:red;">Error: ${filename} の実行に失敗しました</div>`;
+                console.error(err);
+              }
+              return;
+            }
 
-          // 元のコードブロック自体を差し替えることで、MutationObserverの無限ループを自然に防止
-          wrapper.replaceWith(container);
-        });
+            // パターンB:.html ファイル、またはインライン
+            let rawContent = '';
+            if (filename) {
+              try {
+                const res = await fetch(filename);
+                rawContent = res.ok
+                  ? await res.text()
+                  : `<div style="color:red;">Error: ${filename} の読み込みに失敗しました</div>`;
+              } catch (err) {
+                rawContent = `<div style="color:red;">Error: ネットワークエラー</div>`;
+              }
+            } else {
+              rawContent = code.textContent;
+            }
+
+            const uid = `inject-${Date.now()}-${++blockCount}`;
+            const content = rawContent.replaceAll('__UUID__', uid);
+
+            const container = document.createElement('div');
+            container.className = 'custom-injected-html';
+            container.innerHTML = content;
+
+            container.querySelectorAll('script').forEach((oldScript) => {
+              const newScript = document.createElement('script');
+              newScript.type = oldScript.getAttribute('type') || 'module';
+              newScript.textContent = oldScript.textContent;
+              oldScript.replaceWith(newScript);
+            });
+
+            wrapper.replaceWith(container);
+          }),
+        );
       }
+
+      // ==========================================
+      // 2. ユーザー独自の拡張処理 (プラグイン領域)
+      // ==========================================
+
+      // ページ遷移や更新のたびに実行したい処理をここに書く
+      document.addEventListener('wiki-page-rendered', () => {
+        // Prism.js によるシンタックスハイライト
+        if (window.Prism) {
+          Prism.highlightAll();
+        }
+
+        // highlight.js を使う場合は以下のように書き換えるだけ!
+        // if (window.hljs) hljs.highlightAll();
+      });
     </script>
 
     <link rel="stylesheet" href="./css/style.css" />

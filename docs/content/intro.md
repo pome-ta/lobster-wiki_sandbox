@@ -7,7 +7,7 @@ import { loadMarkdown } from
 
 loadMarkdown("./content.md", document.getElementById("content"));
 ```
-
+ 
 
 ```inject
 <div style="padding: 1rem; background: #e0f2fe; border-radius: 8px;">
@@ -29,6 +29,19 @@ loadMarkdown("./content.md", document.getElementById("content"));
 
 - ほげ
 - ふが
+
+
+## `./components` 呼び出し
+
+### `.js` ファイル
+
+```inject:./components/sampleButton.js
+```
+
+### `.html` ファイル
+
+```inject:./components/sampleButton.html
+```
 
 ## にゃー
 

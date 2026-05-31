@@ -1,6 +1,6 @@
 # Guide: `guide.md`
 
-```inject.html
+```inject
 <div style="padding: 1rem; background: #e0f2fe; border-radius: 8px;">
   <p>がいどここは直接書いたHTMLです！</p>
   <button id="my-btn">がいどクリックしてね</button>
@@ -14,7 +14,7 @@
 </script>
 ```
 
-```.js
+```js
 document.getElementById('my-btn').addEventListener('click', () => {
     alert('がいどMarkdown内に書かれたJSが実行されました！');
   });

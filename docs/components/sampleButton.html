@@ -1,0 +1,14 @@
+<div style="padding: 1rem; background: #e0f2fe; border-radius: 8px;">
+  <p>ここはcomponents/sampleButton.htmlです！</p>
+  <button id="btn-__UUID__">クリックしてね</button>
+</div>
+
+<script>
+      import eruda from 'eruda';
+
+      console.log(eruda)
+  // DOMが展開された直後に実行されます
+  document.getElementById('btn-__UUID__').addEventListener('click', () => {
+    alert('components内に書かれたJSが実行されました！');
+  });
+</script>
