@@ -64,7 +64,6 @@ if __name__ == '__main__':
       verbose=False,
   ) as server:
 
-    url = 'https://github.com/ColdGrub1384/Pyto'
     url = server.url
 
     main_vc = SafariViewController.alloc().initWithURL_(nsurl(url))

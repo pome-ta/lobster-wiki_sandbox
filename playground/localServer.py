@@ -33,6 +33,11 @@ class LocalServer:
         )
         handler_self.send_header('Pragma', 'no-cache')
         handler_self.send_header('Expires', '0')
+
+        handler_self.send_header('Access-Control-Allow-Origin', '*')  # フォント対策
+
+        handler_self.send_header('X-Content-Type-Options',
+                                 'nosniff')  # MIME厳格化
         super().end_headers()
 
     handler = partial(CustomHandler, directory=str(self.root_path))
