@@ -17,5 +17,5 @@ const sketch = (p) => {
 
 const p5sketch=new p5(sketch);
 
-export default p5sketch;
+//export default p5sketch;
 
