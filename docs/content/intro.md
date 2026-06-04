@@ -9,8 +9,22 @@ loadMarkdown("./content.md", document.getElementById("content"));
 ```
 
 ```inject:./components/sampleSketch.js
-
 ```
+
+:::details Click to expand
+
+~~~javascript:./components/sampleSketch.js
+~~~
+
+:::
+
+
+
+
+
+
+
+
 
 ```inject
 <div style="padding: 1rem; background: #e0f2fe; border-radius: 8px;">
