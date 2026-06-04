@@ -1,7 +1,5 @@
-import p5 from "p5";
-console.log(p5)
-
-
+import p5 from 'p5';
+console.log(p5);
 
 const sketch = (p) => {
   p.setup = () => {
@@ -14,8 +12,6 @@ const sketch = (p) => {
   };
 };
 
-
-const p5sketch=new p5(sketch);
+const p5sketch = new p5(sketch);
 
 //export default p5sketch;
-
