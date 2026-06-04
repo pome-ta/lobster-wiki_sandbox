@@ -20,11 +20,12 @@
 
       eruda.init();
     </script>
+
     <script type="module">
       import { initWiki } from 'https://hacknock.github.io/lobster-wiki/lobster-wiki.js';
 
       // ==========================================
-      // 1. システムのコア設定 (SPA監視とInject展開)
+      // 1. エントリポイントとSPAライフサイクル
       // ==========================================
       setup();
 
@@ -36,100 +37,135 @@
           return;
         }
 
-        const observer = new MutationObserver(handleDOMChange);
+        const observer = new MutationObserver(updateDOM);
 
-        async function handleDOMChange() {
+        async function updateDOM() {
+          // 無限ループ防止のため、DOM操作中は監視を一時停止
           observer.disconnect();
 
-          // Injectブロックの展開を待機
-          await processInjectBlocks();
+          await processAllBlocks();
 
-          // ★ 展開完了を知らせるカスタムイベントを発火
+          // 展開完了を知らせるイベントを発火
           document.dispatchEvent(new CustomEvent('wiki-page-rendered'));
 
           observer.observe(main, { childList: true, subtree: true });
         }
 
-        await handleDOMChange();
-      }
-
-      async function processInjectBlocks() {
-        const blocks = Array.from(document.querySelectorAll('.lbw-main code.language-inject'));
-        let blockCount = 0;
-
-        await Promise.all(
-          blocks.map(async (code) => {
-            const wrapper = code.closest('.lbs-code-block');
-            if (!wrapper) return;
-
-            const pre = code.closest('pre');
-            const filename = pre?.getAttribute('data-filename');
-
-            // パターンA:外部の .js ファイル
-            if (filename && filename.endsWith('.js')) {
-              const container = document.createElement('div');
-              container.className = 'custom-injected-module';
-              wrapper.replaceWith(container);
-
-              try {
-                const module = await import(filename);
-                if (typeof module.default === 'function') {
-                  module.default(container);
-                }
-              } catch (err) {
-                container.innerHTML = `<div style="color:red;">Error: ${filename} の実行に失敗しました</div>`;
-                console.error(err);
-              }
-              return;
-            }
-
-            // パターンB:.html ファイル、またはインライン
-            let rawContent = '';
-            if (filename) {
-              try {
-                const res = await fetch(filename);
-                rawContent = res.ok
-                  ? await res.text()
-                  : `<div style="color:red;">Error: ${filename} の読み込みに失敗しました</div>`;
-              } catch (err) {
-                rawContent = `<div style="color:red;">Error: ネットワークエラー</div>`;
-              }
-            } else {
-              rawContent = code.textContent;
-            }
-
-            const uid = `inject-${Date.now()}-${++blockCount}`;
-            const content = rawContent.replaceAll('__UUID__', uid);
-
-            const container = document.createElement('div');
-            container.className = 'custom-injected-html';
-            container.innerHTML = content;
-
-            container.querySelectorAll('script').forEach((oldScript) => {
-              const newScript = document.createElement('script');
-              newScript.type = oldScript.getAttribute('type') || 'module';
-              newScript.textContent = oldScript.textContent;
-              oldScript.replaceWith(newScript);
-            });
-
-            wrapper.replaceWith(container);
-          }),
-        );
+        // 初回実行
+        await updateDOM();
       }
 
       // ==========================================
-      // 2. ユーザー独自の拡張処理 (プラグイン領域)
+      // 2. ブロック処理のオーケストレーション
+      // ==========================================
+      async function processAllBlocks() {
+        const injectNodes = Array.from(document.querySelectorAll('.lbw-main code.language-inject'));
+        const sourceNodes = Array.from(document.querySelectorAll('.lbw-main pre'));
+
+        // Injectの展開とソースコードのfetchを並列で実行
+        await Promise.all([...injectNodes.map(processInjectBlock), ...sourceNodes.map(processSourceImport)]);
+      }
+
+      // ==========================================
+      // 3. 個別のブロック処理ロジック
       // ==========================================
 
-      // ページ遷移や更新のたびに実行したい処理をここに書く
-      document.addEventListener('wiki-page-rendered', () => {
-        // Prism.js によるシンタックスハイライト
-        if (window.Prism) {
-          Prism.highlightAll();
+      // 【機能1】Injectブロックの展開(.js 実行 または HTML展開)
+      async function processInjectBlock(codeNode, index) {
+        const wrapper = codeNode.closest('.lbs-code-block');
+        const filename = codeNode.closest('pre')?.getAttribute('data-filename');
+
+        if (!wrapper) {
+          return;
         }
 
-        // highlight.js を使う場合は以下のように書き換えるだけ!
-        // if (window.hljs) hljs.highlightAll();
+        // パターンA: 外部JSモジュールの実行
+        if (filename?.endsWith('.js')) {
+          const container = createContainer('custom-injected-module');
+          wrapper.replaceWith(container);
+
+          try {
+            const module = await import(filename);
+            // オプショナルチェイニングで安全に実行
+            module.default?.(container);
+          } catch (err) {
+            container.innerHTML = `<div style="color:red;">Error: ${filename} の実行に失敗しました</div>`;
+            console.error(err);
+          }
+          return;
+        }
+
+        // パターンB: 外部HTMLの読み込み、またはインライン記述
+        let rawContent = codeNode.textContent;
+        if (filename) {
+          try {
+            const res = await fetch(filename);
+            rawContent = res.ok
+              ? await res.text()
+              : `<div style="color:red;">Error: ${filename} の読み込みに失敗しました</div>`;
+          } catch {
+            rawContent = `<div style="color:red;">Error: ネットワークエラー</div>`;
+          }
+        }
+
+        // UUIDの置換とコンテナの生成
+        const uid = `inject-${Date.now()}-${index}`;
+        const content = rawContent.replaceAll('__UUID__', uid);
+
+        const container = createContainer('custom-injected-html', content);
+        activateScripts(container);
+        wrapper.replaceWith(container);
+      }
+
+      // 【機能2】空のコードブロックへのソース自動取得(表示用)
+      async function processSourceImport(preNode) {
+        const codeNode = preNode.querySelector('code');
+        const filename = preNode.getAttribute('data-filename');
+
+        const isEmpty = codeNode?.textContent.trim() === '';
+        const isPath = filename?.startsWith('./') || filename?.startsWith('/');
+
+        if (!codeNode || !isEmpty || !isPath) {
+          return;
+        }
+
+        try {
+          const res = await fetch(filename);
+          codeNode.textContent = res.ok
+            ? await res.text()
+            : `// Error: ${filename} の読み込みに失敗しました (${res.status})`;
+        } catch {
+          codeNode.textContent = `// Error: ネットワークエラー (${filename})`;
+        }
+      }
+
+      // ==========================================
+      // 4. DOM操作ヘルパー (ノイズの排除)
+      // ==========================================
+
+      function createContainer(className, innerHTML = '') {
+        const div = document.createElement('div');
+        div.className = className;
+        if (innerHTML) {
+          div.innerHTML = innerHTML;
+        }
+        return div;
+      }
+
+      function activateScripts(container) {
+        container.querySelectorAll('script').forEach((oldScript) => {
+          const newScript = document.createElement('script');
+          newScript.type = oldScript.getAttribute('type') || 'module';
+          newScript.textContent = oldScript.textContent;
+          oldScript.replaceWith(newScript);
+        });
+      }
+
+      // ==========================================
+      // 5. ユーザー独自の拡張処理 (プラグイン領域)
+      // ==========================================
+      document.addEventListener('wiki-page-rendered', () => {
+        window.Prism?.highlightAll();
       });
     </script>
 
