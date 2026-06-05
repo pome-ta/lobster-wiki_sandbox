@@ -11,3 +11,7 @@
 
 [pages - My Wiki](https://pome-ta.github.io/lobster-wiki_sandbox/)
 
+
+[Introduction - My Wiki](https://pome-ta.github.io/lobster-wiki_sandbox/)
+
+

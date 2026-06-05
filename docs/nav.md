@@ -1,5 +1,7 @@
-:::details 基本
 - [Introduction](?page=intro)
+
+:::details 基本
+- [Sub](?page=sub/sub-intr)
 - [Guide](?page=guide)
 :::
 
