@@ -8,12 +8,12 @@ import { loadMarkdown } from
 loadMarkdown("./content.md", document.getElementById("content"));
 ```
 
-```inject:./components/sampleSketch.js
+```inject:./components/sampleSketchInstanceMode.js
 ```
 
-:::details Click to expand
+:::details sketch code
 
-~~~javascript:./components/sampleSketch.js
+~~~javascript:./components/sampleSketchInstanceMode.js
 ~~~
 
 :::
