@@ -1,3 +1,4 @@
-- ここがげっとすたんだーど
-  - [Introduction](?page=intro)
-  - [Guide](?page=guide)
+:::details 目次
+- [Introduction](?page=intro)
+- [Guide](?page=guide)
+:::

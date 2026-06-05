@@ -13,5 +13,8 @@ const sketch = (p) => {
 };
 
 export default function mount(container) {
+  document.addEventListener('DOMContentLoaded', () => {
+    console.log('sketch DOMContentLoaded');
+  });
   new p5(sketch, container);
 }
