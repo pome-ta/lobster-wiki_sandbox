@@ -15,7 +15,7 @@
 ```
 
 ```js
-document.getElementById('my-btn').addEventListener('click', () => {
-    alert('がいどMarkdown内に書かれたJSが実行されました！');
-  });
+document.getElementById("my-btn").addEventListener("click", () => {
+  alert("がいどMarkdown内に書かれたJSが実行されました！");
+});
 ```

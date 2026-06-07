@@ -3,6 +3,6 @@
   "navigation": "./nav.md",
   "header": "./header.md",
   "footer": "./footer.md",
-  "defaultPage": "intro",
+  "defaultPage": "memo",
   "tableOfContents": true
 }

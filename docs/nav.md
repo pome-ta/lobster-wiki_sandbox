@@ -1,3 +1,4 @@
+- [memo](?page=memo)
 - [Introduction](?page=intro)
 
 :::details 基本

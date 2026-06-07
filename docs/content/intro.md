@@ -1,30 +1,22 @@
 # Introduction: `intro.md`
 
 ```js
-import { loadMarkdown } from
-"https://hacknock.github.io/lobsterjs/lobster.js"
-;
+import { loadMarkdown } from "https://hacknock.github.io/lobsterjs/lobster.js";
 
 loadMarkdown("./content.md", document.getElementById("content"));
 ```
 
 ```inject:./components/sampleSketchInstanceMode.js
+
 ```
 
 :::details sketch code
 
-~~~javascript:./components/sampleSketchInstanceMode.js
-~~~
+```javascript:./components/sampleSketchInstanceMode.js
+
+```
 
 :::
-
-
-
-
-
-
-
-
 
 ```inject
 <div style="padding: 1rem; background: #e0f2fe; border-radius: 8px;">
