@@ -1,11 +1,8 @@
-- [memo](?page=memo)
+
 - [Introduction](?page=intro)
+- [readme](?page=readme)
 
-:::details 基本
 
-- [Sub](?page=sub/sub-intr)
-- [Guide](?page=guide)
-  :::
 
 :::details 本家-ja | Documents
 
@@ -31,8 +28,17 @@
 
 :::
 
-:::details カスタム
+
+:::details 基本整理
+
+- [Sub](?page=sub/sub-intr)
+- [Guide](?page=guide)
+  :::
+
+:::details カスタマイズ（独自調査）
 
 - injection
 - source code
   :::
+
+- [memo](?page=memo)
