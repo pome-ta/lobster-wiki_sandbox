@@ -5,7 +5,9 @@
 
 
 
-## リポジトリ
+## 参照先
+
+### リポジトリ
 
 [Hacknock/lobster-wiki | GitHub](https://github.com/Hacknock/lobster-wiki)
 
@@ -16,12 +18,15 @@
 > A tool to convert Markdown into simple and rich web pages.
 
 
+### ドキュメント
 
 
 [MarkdownだけでWikiを作ろう](https://zenn.dev/kyome/articles/9937ce78b948bc)
 
 [Introduction - lobster.js](https://hacknock.github.io/lobster-wiki/)
 
+
+## 当GitHub Pages
 
 
 [pages - lobster-wiki_sandbox](https://pome-ta.github.io/lobster-wiki_sandbox/)
