@@ -22,6 +22,11 @@
 - top は、`[top](?page=./)`
 	- [top](?page=./)
 
+### 画像
+
+- `![lobster.js](https://github.com/Hacknock/lobsterjs/raw/main/docs/lobsterjs-light.png =48x48)`
+- こんな感じでどうにかなった
+
 
 ## 公式の機械翻訳とか
 
@@ -33,8 +38,29 @@
 
 #### todo?
 
-- [] formal のスタイル一部テキストが背景と同色か？
+- [ ] formal のスタイル一部テキストが背景と同色か？
   - [lobsterjs/docs/themes/formal.css at main · Hacknock/lobsterjs · GitHub](https://github.com/Hacknock/lobsterjs/blob/main/docs/themes/formal.css)
+
+- 2　カラムレイアウト
+  - lobster.js と、lobster-wiki だと書き方違う？
+
+```lobster.md
+
+~ | [~compare-no] | [~compare-yes] |
+~ | :--- | :--- |
+
+```
+
+```lobster-wiki.md
+
+~ |          Left           |          Right          |
+~ | :---                    | :---                    |
+~ | [~col-left]             | [~col-right]            |
+
+```
+
+  - チェックボックスのスタイルがうまくあたってない？
+
 
 
 ### lobster-wiki

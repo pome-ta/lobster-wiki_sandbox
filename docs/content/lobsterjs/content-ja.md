@@ -1,34 +1,35 @@
 :::header
 
-# ![lobster.js](./lobsterjs-light.png =48x48) lobster.js
+# ![lobster.js](https://github.com/Hacknock/lobsterjs/raw/main/docs/lobsterjs-light.png =48x48) [lobster.js](https://hacknock.github.io/lobsterjs/)
 
-**Design web pages using only Markdown.**
+**Markdownだけで、Webページを設計しよう。**
 
-With lobster.js, you can easily create rich static websites using extended Markdown syntax.
+lobster.js を使えば拡張Markdown記法で簡単にリッチな静的Webサイトが作れます。
 
 :::
 
-This page itself is rendered by lobster.js^[index.html is just 15 lines. Load lobster.js, point it at a Markdown file, and you're done.].
+このページ自体が lobster.js でレンダリングされています^[index.html はわずか 15 行。lobster.js を読み込み、Markdown ファイルを指定するだけで完成です。]。
 
 ---
 
-## What plain Markdown can't do
+## 普通の Markdown にできないこと
 
-Tasks requiring embedded HTML in standard Markdown can be done with simple extended syntax in lobster.js.
-Even the 2-column layout below is possible without any HTML.
+標準 Markdown では HTML の埋め込みが必要なことが、lobster.js では簡単な拡張Markdown記法で書けます。
+下の 2 カラムレイアウトも HTML 埋め込み無しで実現できます。
 
-~ | [~compare-no] | [~compare-yes] |
+~ |          Left           |          Right          |
 ~ | :--- | :--- |
+~ | [~compare-no] | [~compare-yes] |
 
 :::warp compare-no
 
-### Standard Markdown
+### 標準 Markdown
 
-- Multi-column layout → **not possible**
-- Table cell merging → **not possible**
-- Collapsible blocks → needs `<details>` tag
-- Page header / footer → needs HTML structure
-- Footnotes → parser-dependent, often unsupported
+- 段組レイアウト → **不可**
+- テーブルセル結合 → **不可**
+- 折りたたみ → `<details>` タグが必要
+- ヘッダー / フッター → HTML 構造が必要
+- 脚注 → パーサー依存、非対応が多い
 
 :::
 
@@ -36,82 +37,84 @@ Even the 2-column layout below is possible without any HTML.
 
 ### lobster.js
 
-- Multi-column → `:::warp` + silent table
-- Cell merging → `\|` (horizontal) / `\---` (vertical)
-- Collapsible → `:::details Title`
-- Header / footer → `:::header` / `:::footer`
-- Footnotes → `[^id]` or inline `^[text]`
+- 段組 → `:::warp` + サイレントテーブル
+- セル結合 → `\|`（横）/ `\---`（縦）
+- 折りたたみ → `:::details タイトル`
+- ヘッダー / フッター → `:::header` / `:::footer`
+- 脚注 → `[^id]` またはインライン `^[テキスト]`
 
 :::
 
 ---
 
-## :::warp — multi-column layouts in Markdown
+## :::warp — Markdown で段組レイアウト
 
-Define a named content block with `:::warp id`, then place it anywhere using `[~id]`.
-Put warp references into a silent table (`~ |`) and you get a full column layout — no HTML, no CSS required.
+`:::warp id` で名前付きコンテンツブロックを定義し、`[~id]` でどこにでも配置できます。
+ワープ参照をサイレントテーブル（`~ |`）に並べれば、HTML も CSS も書かずに段組が完成します。
 
-~ | [~card-light] | [~card-ast] |
+~ |          Left           |          Right          |
 ~ | :--- | :--- |
+~ | [~card-light] | [~card-ast] |
 
 :::warp card-light
 
-### Lightweight
+### 軽量
 
-Zero dependencies. ESM bundle is **26 KB** (gzip: 7 KB).
+依存ゼロ。ESM バンドルは **26 KB**（gzip: 7 KB）。
 
-One `<script type="module">` line and you're running.
+`<script type="module">` 1 行で動き始めます。
 
 :::
 
 :::warp card-ast
 
-### AST-first
+### AST ファースト
 
-`parseDocument()` gives you the full intermediate AST. Build custom renderers or integrate with your own tooling.
+`parseDocument()` で完全な中間 AST を取得できます。カスタムレンダラーの構築や独自ツールへの統合が可能です。
 
 :::
 
 ---
 
-## :::details — collapsible blocks
+## :::details — 折りたたみブロック
 
-Standard Markdown requires you to write raw `<details>` HTML. With lobster.js, just wrap it with `:::details` and `:::`.
+標準 Markdown では `<details>` タグを書く必要があります。lobster.js なら`:::details`と`:::`で囲むだけです。
 
-:::details Inline syntax cheatsheet (click to expand)
+:::details インライン記法チートシート（クリックで展開）
 
-~ | [~cheat-inline] | [~cheat-block] |
+~ |          Left           |          Right          |
 ~ | :--- | :--- |
+~ | [~cheat-inline] | [~cheat-block] |
 
 :::warp cheat-inline
 
-**Inline syntax**
+**インライン記法**
 
-| Syntax        | Output                                                                |
-| :------------ | :-------------------------------------------------------------------- |
-| `**bold**`    | **bold**                                                              |
-| `*italic*`    | _italic_                                                              |
-| `~~strike~~`  | ~~strike~~                                                            |
-| `` `code` ``  | `code`                                                                |
-| `[text](url)` | [link](https://github.com/Hacknock/lobsterjs)                         |
-| `^[note]`     | inline footnote^[Footnotes are collected at the end of the document.] |
+| 記法           | 出力                                                            |
+| :------------- | :-------------------------------------------------------------- |
+| `**太字**`     | **太字**                                                        |
+| `*斜体*`       | _斜体_                                                          |
+| `~~打ち消し~~` | ~~打ち消し~~                                                    |
+| `` `コード` `` | `コード`                                                        |
+| `[text](url)`  | [リンク](https://github.com/Hacknock/lobsterjs)                 |
+| `^[注]`        | インライン脚注^[脚注はドキュメント末尾にまとめて出力されます。] |
 
 :::
 
 :::warp cheat-block
 
-**Block syntax**
+**ブロック記法**
 
-> Blockquote
+> 引用ブロック
 >
-> > Nested blockquote
+> > ネストした引用
 
-Checklist:
+チェックリスト:
 
-- [x] Header / footer
-- [x] Multi-column layout
-- [x] Collapsible blocks
-- [x] Cell-merging tables
+- [x] ヘッダー / フッター
+- [x] 段組レイアウト
+- [x] 折りたたみブロック
+- [x] セル結合テーブル
 
 :::
 
@@ -119,32 +122,30 @@ Checklist:
 
 ---
 
-## Table cell merging
+## テーブルセル結合
 
-Standard Markdown has no cell-merging spec. lobster.js supports `\---` (vertical span) and `\|` (horizontal span).
+標準 Markdown にはセル結合の仕様がありません。lobster.js は `\---`（縦方向）と `\|`（横方向）をサポートします。
 
-| Category | Feature               | Syntax                    |
-| :------- | :-------------------- | :------------------------ |
-| Layout   | Multi-column layout   | `:::warp` + silent table  |
-| \---     | Collapsible block     | `:::details Title`        |
-| \---     | Header / footer       | `:::header` / `:::footer` |
-| Tables   | Horizontal cell merge | `` `\|` ``                |
-| \---     | Vertical cell merge   | `` `\---` ``              |
-| \---     | Silent table          | `` `~ \|` `` prefix       |
+| カテゴリ   | 機能                | 記法                           |
+| :--------- | :------------------ | :----------------------------- |
+| レイアウト | 段組レイアウト      | `:::warp` + サイレントテーブル |
+| \---       | 折りたたみブロック  | `:::details タイトル`          |
+| \---       | ヘッダー / フッター | `:::header` / `:::footer`      |
+| テーブル   | 横方向セル結合      | `` `\|` ``                     |
+| \---       | 縦方向セル結合      | `` `\---` ``                   |
+| \---       | サイレントテーブル  | `` `~ \|` `` プレフィックス    |
 
-"Layout" and "Tables" in the left column each span three rows via vertical cell merging.
+左列の「レイアウト」と「テーブル」はそれぞれ 3 行にわたって縦方向セル結合しています。
 
 ---
 
-## Quick start
-
-### Browser
+## クイックスタート
 
 ```html:index.html
 <!DOCTYPE html>
 <html>
   <head>
-    <!-- starter CSS — swap for your own stylesheet -->
+    <!-- スターター CSS — 自分のスタイルシートに差し替えてください -->
     <link rel="stylesheet" href="https://hacknock.github.io/lobsterjs/style.css">
   </head>
   <body>
@@ -157,31 +158,18 @@ Standard Markdown has no cell-merging spec. lobster.js supports `\---` (vertical
 </html>
 ```
 
-### Node.js
-
-```sh
-npm install @hacknock/lobster
-```
-
-```js
-import { toHTML } from "@hacknock/lobster";
-const html = toHTML("# Hello\n\nThis is **lobster**.");
-```
-
----
-
-## Wiki
-
-Want to see lobster.js in action across a wider set of examples?
-The **[lobster-wiki](https://Hacknock.github.io/lobster-wiki/)** is a wiki-style site built entirely with lobster.js, covering:
-
-- Tables, cell merging, and silent layout grids
-- Warp-based multi-column layouts
-- Image sizing and image+text layouts
-- Footnotes, code blocks, and collapsible details
-
 ---
 
 :::footer
-[lobster.js on GitHub](https://github.com/Hacknock/lobsterjs) — MIT License · [Wiki](https://Hacknock.github.io/lobster-wiki/)
+[lobster.js on GitHub](https://github.com/Hacknock/lobsterjs) — MIT License
+
+:::details このページの Markdown ソースを見る
+
+```markdown:./content/lobsterjs/content-ja.md
+```
 :::
+
+
+:::
+
+
