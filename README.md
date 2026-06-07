@@ -9,9 +9,6 @@
 
 [Introduction - lobster.js](https://hacknock.github.io/lobster-wiki/)
 
-[pages - My Wiki](https://pome-ta.github.io/lobster-wiki_sandbox/)
 
 
-[Introduction - My Wiki](https://pome-ta.github.io/lobster-wiki_sandbox/)
-
-
+[pages - lobster-wiki_sandbox](https://pome-ta.github.io/lobster-wiki_sandbox/)
