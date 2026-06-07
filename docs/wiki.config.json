@@ -1,6 +1,6 @@
 {
   "title": "lobster-wiki_sandbox",
-  "navigation": "./nav.md",
+  "navigation": "./navigation.md",
   "header": "./header.md",
   "footer": "./footer.md",
   "defaultPage": "memo",
