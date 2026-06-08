@@ -1,8 +1,4 @@
-
-
 - [readme](?page=readme)
-
-
 
 :::details 本家-ja | Documents
 
@@ -42,3 +38,4 @@
   :::
 
 - [memo](?page=memo)
+
