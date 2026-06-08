@@ -1,5 +1,5 @@
 
-- [Introduction](?page=intro)
+
 - [readme](?page=readme)
 
 
@@ -30,9 +30,9 @@
 
 
 :::details 基本整理
-
+- [Introduction](?page=study/intro)
 - [Sub](?page=sub/sub-intr)
-- [Guide](?page=guide)
+- [Guide](?page=study/guide)
   :::
 
 :::details カスタマイズ（独自調査）
