@@ -2,12 +2,16 @@
 
 # lobster.js
 
-> Extended Markdown parser for rich, structured web pages — works in the browser and Node.js.
+
+
+> リッチで構造化されたウェブページのための拡張Markdown パーサー。ブラウザとNode.js の両方で動作します。
 
 **[Demo & Docs →](https://Hacknock.github.io/lobsterjs/)** · **[Wiki →](https://Hacknock.github.io/lobster-wiki/)**
 
-lobster.js takes a Markdown file with its own extended syntax and turns a near-empty HTML page into a fully structured document — no build step, no framework.
-It provides **document structure only**; appearance is entirely up to CSS via predictable `lbs-*` class names.
+
+
+lobster.js は、独自の拡張構文を持つMarkdown ファイルを受け取り、ほぼ空のHTML ページを完全に構造化されたドキュメントに変換します。ビルド手順もフレームワークも必要ありません。
+これは **ドキュメント構造のみ** を提供します。外観は、予測可能な `lbs-*` クラス名によるCSS に完全に依存します。
 
 ```html
 <!DOCTYPE html>
@@ -26,7 +30,7 @@ It provides **document structure only**; appearance is entirely up to CSS via pr
 </html>
 ```
 
-lobster.js outputs semantic HTML with `lbs-*` class names. No stylesheet is bundled in the package — styling is entirely up to you. Ready-to-use CSS themes are provided in [`docs/themes/`](https://github.com/Hacknock/lobsterjs/tree/main/docs/themes) for quick starts and inspiration.
+lobster.js は、 `lbs-*` クラス名を使用したセマンティック HTML を出力します。パッケージにはスタイルシートは含まれていないため、スタイリングは完全にユーザー自身で行うことができます。すぐに使える CSS テーマは [`docs/themes/`](https://github.com/Hacknock/lobsterjs/tree/main/docs/themes) に用意されており、すぐに使い始めたり、インスピレーションを得たりすることができます。
 
 ---
 
