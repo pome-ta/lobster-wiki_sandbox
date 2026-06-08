@@ -30,7 +30,21 @@
 
 ## テキスト折り返し
 
+```css:style.css
+body {
+  line-break: strict;
+  font-feature-settings: 'palt';
+  overflow-wrap: anywhere;
+}
+```
+
+この程度に抑えた。以下解決。
+
+
 バッククオートでの長い文字列は、折り返しできないかも？
+
+kiso.css は、リセットであり、`lobster-wiki/style.css` と競合すると面倒なので、導入を控えた。
+
 
 - [kiso](https://github.com/tak-dcxi/kiso.css)
 	- 箇条書きとか消えるかも？
