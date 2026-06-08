@@ -1,6 +1,6 @@
 :::header
 
-# ![lobster.js](https://github.com/Hacknock/lobsterjs/raw/main/docs/lobsterjs-light.png =48x48) [lobster.js](https://hacknock.github.io/lobsterjs/)
+# ![lobster.js](https://hacknock.github.io/lobsterjs/lobsterjs-light.png =48x48) [lobster.js](https://hacknock.github.io/lobsterjs/)
 
 **Markdownだけで、Webページを設計しよう。**
 

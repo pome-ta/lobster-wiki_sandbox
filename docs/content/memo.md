@@ -32,6 +32,23 @@
 
 バッククオートでの長い文字列は、折り返しできないかも？
 
+- [kiso](https://github.com/tak-dcxi/kiso.css)
+	- 箇条書きとか消えるかも？
+	- テスト
+	1. これは1
+	1. これは2
+	- 詳細はまだ未調査
+
+```html:index.html
+  <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/kiso.css@latest/kiso.css"> -->
+  <link rel="stylesheet" href="./css/style.css"/>
+  <link rel="stylesheet" href="https://hacknock.github.io/lobster-wiki/style.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism.min.css"/>
+
+  <script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs/plugins/autoloader/prism-autoloader.min.js"></script>
+```
+
 
 ## 公式の機械翻訳とか
 
@@ -64,7 +81,8 @@
 
 ```
 
-  - チェックボックスのスタイルがうまくあたってない？
+- チェックボックスのスタイルがうまくあたってない？
+  - ブラウザの差異か？
 
 
 
