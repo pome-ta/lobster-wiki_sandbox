@@ -1,6 +1,6 @@
 import p5 from 'p5';
 
-import { sketch } from './mySketch.js';
+import { sketch } from './mySketch01.js';
 //console.log(p5);
 
 
