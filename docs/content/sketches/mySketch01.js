@@ -1,7 +1,6 @@
 const v = 640;
 
-
-export const  sketch = (p) => {
+export const sketch = (p) => {
   p.setup = () => {
     p.createCanvas(v, v);
     p.colorMode(p.HSL, v, 1, 1);
@@ -11,5 +10,3 @@ export const  sketch = (p) => {
     p.background(p.frameCount % v, 1, 0.5);
   };
 };
-
-
