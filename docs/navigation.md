@@ -40,7 +40,5 @@
   :::
 
 - [memo](?page=memo)
-
-
-
+- [canvases](?page=sketches/canvases)
 
