@@ -17,11 +17,9 @@
     </script>
     <script type="module">
       import eruda from 'eruda';
-
       eruda.init();
     </script>
 
-    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/kiso.css@latest/kiso.css"> -->
     <link rel="stylesheet" href="./css/style.css" />
     <link rel="stylesheet" href="https://hacknock.github.io/lobster-wiki/style.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism.min.css" />
@@ -94,8 +92,22 @@
 
           try {
             const module = await import(filename);
-            // オプショナルチェイニングで安全に実行
-            module.default?.(container);
+
+            // Markdownブロック内に書かれた設定(JSON)を読み取り、Propsとして準備
+            let props = {};
+            const rawContent = codeNode.textContent.trim();
+            if (rawContent.startsWith('{') || rawContent.startsWith('[')) {
+              try {
+                props = JSON.parse(rawContent);
+                //props = new Function('return ' + rawContent)();
+                //props = new Function(`return (${rawContent})`)();
+              } catch (parseErr) {
+                console.warn(`[Lobster Wiki] ${filename} に渡すJSONの解析に失敗しました:`, parseErr);
+              }
+            }
+
+            // モジュールの default 関数に container と props を渡して実行
+            module.default?.(container, props);
           } catch (err) {
             container.innerHTML = `<div style="color:red;">Error: ${filename} の実行に失敗しました</div>`;
             console.error(err);
