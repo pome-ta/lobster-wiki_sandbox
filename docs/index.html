@@ -22,16 +22,34 @@
       eruda.init();
     </script>
 
-    <link rel="stylesheet" href="./css/style.css" />
+    <style>
+      body {
+        line-break: strict;
+        font-feature-settings: 'palt';
+        overflow-wrap: anywhere;
+      }
+    </style>
+    <style media="screen and (width <= 768px)">
+      .lbw-main pre[class*='language-'],
+      .lbw-main code[class*='language-'] {
+        font-size: 0.8rem;
+        line-height: 1.4;
+      }
+    </style>
+
+    <!--<link rel="stylesheet" href="./css/style.css" />-->
     <link rel="stylesheet" href="https://hacknock.github.io/lobster-wiki/style.css" />
+
+    <!-- Prism.js -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/prismjs/plugins/autoloader/prism-autoloader.min.js"></script>
+
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/prismjs/plugins/line-numbers/prism-line-numbers.min.css"
     />
-
-    <script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/prismjs/plugins/autoloader/prism-autoloader.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/prismjs/plugins/line-numbers/prism-line-numbers.min.js"></script>
 
     <script type="module">
