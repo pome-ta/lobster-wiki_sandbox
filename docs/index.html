@@ -25,9 +25,14 @@
     <link rel="stylesheet" href="./css/style.css" />
     <link rel="stylesheet" href="https://hacknock.github.io/lobster-wiki/style.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/prismjs/plugins/line-numbers/prism-line-numbers.min.css"
+    />
 
     <script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/prismjs/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs/plugins/line-numbers/prism-line-numbers.min.js"></script>
 
     <script type="module">
       import { initWiki } from 'lobster-wiki.js';
@@ -202,6 +207,11 @@
       // 5. ユーザー独自の拡張処理 (プラグイン領域)
       // ==========================================
       document.addEventListener('wiki-page-rendered', () => {
+        // ★ Prismが色を塗る前に、すべての pre タグに行番号発動用のクラスをつける
+        document.querySelectorAll('.lbw-main pre').forEach((pre) => {
+          pre.classList.add('line-numbers');
+        });
+
         window.Prism?.highlightAll();
       });
     </script>
