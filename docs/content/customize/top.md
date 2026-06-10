@@ -17,7 +17,7 @@
 
 :::details `index.html` のソースコードを見る
 
-```html:./../index.html
+```html:https://raw.githubusercontent.com/pome-ta/lobster-wiki_sandbox/refs/heads/main/docs/index.html
 
 ```
 

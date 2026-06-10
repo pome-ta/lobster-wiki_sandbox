@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ja">
   <head>
     <meta charset="utf-8" />
@@ -12,6 +12,7 @@
         "imports": {
           "eruda": "https://esm.sh/eruda",
           "lobster-wiki.js": "https://hacknock.github.io/lobster-wiki/lobster-wiki.js",
+          "lobster.js": "https://hacknock.github.io/lobsterjs/lobster.js",
           "p5": "https://cdn.jsdelivr.net/npm/p5/+esm"
         }
       }
@@ -29,7 +30,6 @@
     <script src="https://cdn.jsdelivr.net/npm/prismjs/plugins/autoloader/prism-autoloader.min.js"></script>
 
     <script type="module">
-      //import { initWiki } from 'https://hacknock.github.io/lobster-wiki/lobster-wiki.js';
       import { initWiki } from 'lobster-wiki.js';
 
       // ==========================================
@@ -145,7 +145,7 @@
         const filename = preNode.getAttribute('data-filename');
 
         const isEmpty = codeNode?.textContent.trim() === '';
-        const isPath = filename?.startsWith('./') || filename?.startsWith('/');
+        const isPath = filename?.startsWith('./') || filename?.startsWith('/') || filename?.startsWith('http');
 
         if (!codeNode || !isEmpty || !isPath) {
           return;
