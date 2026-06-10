@@ -117,6 +117,21 @@
           return;
         }
 
+        if (filename?.endsWith('.md')) {
+          const container = createContainer('custom-injected-markdown');
+          wrapper.replaceWith(container);
+
+          try {
+            // lobsterjs の公式関数 loadMarkdown を使って指定URLを展開する
+            const { loadMarkdown } = await import('lobster.js');
+            await loadMarkdown(filename, container);
+          } catch (err) {
+            container.innerHTML = `<div style="color:red;">Error: ${filename} のレンダリングに失敗しました</div>`;
+            console.error(err);
+          }
+          return;
+        }
+
         // パターンB: 外部HTMLの読み込み、またはインライン記述
         let rawContent = codeNode.textContent;
         if (filename) {
