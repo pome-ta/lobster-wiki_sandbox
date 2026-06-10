@@ -1,10 +1,19 @@
 # p5
 
-## コンポーネント
+## コンポーネント01
 
 ```inject:./content/sketches/sketchComponent.js
 {
   "modulePath": "./mySketch01.js"
+}
+```
+
+
+## コンポーネント02
+
+```inject:./content/sketches/sketchComponent.js
+{
+  "modulePath": "./mySketch02.js"
 }
 ```
 

@@ -1,16 +1,12 @@
 import p5 from 'p5';
 
-// import { sketch } from './mySketch01.js';
-
-let p5Instance;
-let isLoop = false;
 const pause = 'pause';
 const loop = 'loop';
 
-// export default function mount(container, props) {
 export default async function mount(container, { modulePath }) {
-  // import(modulePath).then(({sketch} ) => {
   const { sketch } = await import(modulePath);
+  let p5Instance;
+  let isLoop = false;
 
   const playBtn = document.createElement('button');
   playBtn.textContent = loop;
