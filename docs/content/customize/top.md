@@ -24,7 +24,7 @@
 :::
 
 
-:::details `index.html` 退避
+:::details `index.html` 退避（過去の）
 
 ```html:index.html
 <!DOCTYPE html>
