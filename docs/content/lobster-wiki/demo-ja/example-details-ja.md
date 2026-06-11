@@ -1,6 +1,6 @@
 # 詳細 / 折りたたみ [(Details / Collapsible)](https://hacknock.github.io/lobster-wiki/?page=example-details)
 
-`:::details` ブロックは、ネイティブなHTMLの `<details>` / `<summary>` 要素としてレンダリングされます。切り替えの動作にJavaScript は必要ありません。
+`:::details` ブロックは、ネイティブな HTML の `<details>` / `<summary>` 要素としてレンダリングされます。切り替えの動作に JavaScript は必要ありません。
 
 ## 基本的な使い方
 
@@ -8,7 +8,7 @@
 :::details クリックして展開
 ユーザーがサマリーをクリックすると、非表示のコンテンツが表示されます。
 
-ここには、段落、リスト、コードブロック、テーブルなど、**任意の** Markdownを記述できます。
+ここには、段落、リスト、コードブロック、テーブルなど、**任意の** Markdown を記述できます。
 :::
 ```
 
@@ -17,10 +17,10 @@
 :::details クリックして展開
 ユーザーがサマリーをクリックすると、非表示のコンテンツが表示されます。
 
-ここには、段落、リスト、コードブロック、テーブルなど、**任意の** Markdownを記述できます。
+ここには、段落、リスト、コードブロック、テーブルなど、**任意の** Markdown を記述できます。
 :::
 
-## details内のリッチコンテンツ
+## details 内のリッチコンテンツ
 
 `:::details` ブロック内では、すべての lobster.js Markdown が有効です:
 
@@ -28,10 +28,10 @@
 :::details API リファレンス
 | 関数 | 戻り値 | 説明 |
 | :--------------- | :------- | :---------------------------- |
-| `loadMarkdown` | Promise | フェッチしてDOMにレンダリング |
-| `toHTML` | string | 解析してHTMLにレンダリング |
-| `parseDocument` | Document | ASTに解析 |
-| `renderDocument` | string | ASTをHTMLにレンダリング |
+| `loadMarkdown` | Promise | フェッチして DOM にレンダリング |
+| `toHTML` | string | 解析して HTML にレンダリング |
+| `parseDocument` | Document | AST に解析 |
+| `renderDocument` | string | AST を HTML にレンダリング |
 :::
 ```
 
@@ -39,16 +39,16 @@
 
 :::details API リファレンス
 
-| 関数             | 戻り値   | 説明                          |
-| :--------------- | :------- | :---------------------------- |
-| `loadMarkdown`   | Promise  | フェッチしてDOMにレンダリング |
-| `toHTML`         | string   | 解析してHTMLにレンダリング    |
-| `parseDocument`  | Document | ASTに解析                     |
-| `renderDocument` | string   | ASTをHTMLにレンダリング       |
+| 関数             | 戻り値   | 説明                            |
+| :--------------- | :------- | :------------------------------ |
+| `loadMarkdown`   | Promise  | フェッチして DOM にレンダリング |
+| `toHTML`         | string   | 解析して HTML にレンダリング    |
+| `parseDocument`  | Document | AST に解析                      |
+| `renderDocument` | string   | AST を HTML にレンダリング      |
 
 :::
 
-## details内のコード
+## details 内のコード
 
 :::details 完全な例を表示
 
@@ -70,14 +70,14 @@ await loadMarkdown(["./shared.md", "./content.md"], content);
 :::
 
 :::details lobster.js は npm を必要としますか?
-いいえ。`<script type="module">` のCDN経由で直接使用できます。npm、バンドラー、ビルド手順は不要です。
+いいえ。`<script type="module">` の CDN 経由で直接使用できます。npm、バンドラー、ビルド手順は不要です。
 :::
 
-:::details lobster.jsはどのCSSクラスを使用していますか？
+:::details lobster.js はどの CSS クラスを使用していますか？
 すべての要素には`lbs-*`クラスが付与されます。クラスの完全なリファレンスについては、[Introduction](?page=intro) を参照してください。
 :::
 
-## HTML出力
+## HTML 出力
 
 ```html
 <details class="lbs-details">
