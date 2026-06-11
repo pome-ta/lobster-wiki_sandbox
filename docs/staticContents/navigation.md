@@ -36,9 +36,9 @@
 - [top](?page=customize/top)
 	- [injection](?page=customize/injection)
 	- [fileSourceCode](?page=customize/fileSourceCode)
-
+- [canvases](?page=sketches/canvases)
   :::
 
 - [memo](?page=memo)
-- [canvases](?page=sketches/canvases)
+
 
