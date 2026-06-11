@@ -1,12 +1,12 @@
 # はじめに [(Introduction)](https://hacknock.github.io/lobster-wiki/)
 
-**lobster.js** は、ブラウザ上で直接、リッチで構造化されたウェブページをレンダリングする拡張Markdown パーサーです。ビルドステップやフレームワークは必要ありません。
+**lobster.js** は、ブラウザ上で直接、リッチで構造化されたウェブページをレンダリングする拡張 Markdown パーサーです。ビルドステップやフレームワークは必要ありません。
 
-Markdown ファイルを書き、それを lobster.js に指定するだけで、完全に構造化されたHTML ドキュメントが得られます。外観は、予測可能な `lbs-*` クラス名を使用した CSS に完全に委ねられています。
+Markdown ファイルを書き、それを lobster.js に指定するだけで、完全に構造化された HTML ドキュメントが得られます。外観は、予測可能な `lbs-*` クラス名を使用した CSS に完全に委ねられています。
 
 ## クイックスタート
 
-HTMLに`<script type="module">` を1つ追加してください:
+HTML に`<script type="module">` を 1 つ追加してください:
 
 ```html
 <!DOCTYPE html>
@@ -36,11 +36,11 @@ HTMLに`<script type="module">` を1つ追加してください:
 | 複数ファイル  | `loadMarkdown` に配列を渡してファイルをマージします。ワープ/リンク/脚注の参照は共有されます            |
 | TypeScript    | 完全な型定義が含まれています                                                                           |
 
-## APIの概要
+## API の概要
 
 ### `loadMarkdown(src, container)`
 
-MarkdownをフェッチしてDOM要素にレンダリングします。
+Markdown をフェッチして DOM 要素にレンダリングします。
 
 ```js
 import { loadMarkdown } from "./lobster.js";
@@ -62,7 +62,7 @@ const html = toHTML("# Hello **world**");
 
 ## 拡張構文の概要
 
-lobster.js は、標準のMarkdownに加えて以下の機能を追加します:
+lobster.js は、標準の Markdown に加えて以下の機能を追加します:
 
 - **`:::header` / `:::footer`** — セマンティックなページ領域
 - **`:::details`** — ネイティブな `/` 折りたたみブロック
@@ -74,7 +74,7 @@ lobster.js は、標準のMarkdownに加えて以下の機能を追加します:
 
 各機能については、サイドバーの例をご覧ください。
 
-## CSSクラス
+## CSS クラス
 
 レンダリングされたすべての要素には `lbs-*` クラスが付きます。デフォルトのスタイルシートはバンドルされていません。
 
