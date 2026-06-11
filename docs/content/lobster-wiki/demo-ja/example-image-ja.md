@@ -1,6 +1,6 @@
 # 画像 [(Images)](https://hacknock.github.io/lobster-wiki/?page=example-image)
 
-lobster.js は、標準のMarkdownの画像構文に加え、`width` / `height` 属性に直接マッピングされる**オプションのサイズ指定子** `=WxH` をサポートしています。CSSは必要ありません。
+lobster.js は、標準の Markdown の画像構文に加え、`width` / `height` 属性に直接マッピングされる**オプションのサイズ指定子** `=WxH` をサポートしています。CSS は必要ありません。
 
 ## 基本的な画像
 
@@ -16,11 +16,11 @@ lobster.js は、標準のMarkdownの画像構文に加え、`width` / `height` 
 
 ## 画像のサイズ調整
 
-括弧内のURLに `=WxH` (ピクセル単位) を追加します。どちらの寸法も省略可能です。
+括弧内の URL に `=WxH` (ピクセル単位) を追加します。どちらの寸法も省略可能です。
 
 ### 幅のみ — `=400x`
 
-画像を幅400ピクセルに拡大縮小します。高さは比例します。
+画像を幅 400 ピクセルに拡大縮小します。高さは比例します。
 
 ```markdown
 ![サンプル =400x](https://hacknock.github.io/lobster-wiki/images/sample-wide.png =400x)
@@ -102,7 +102,7 @@ lobster.js は、標準のMarkdownの画像構文に加え、`width` / `height` 
 
 ## 画像グリッド
 
-3列のサイレントテーブルに3つの画像を配置します:
+3 列のサイレントテーブルに 3 つの画像を配置します:
 
 ```markdown
 ~ | | | |
@@ -142,9 +142,9 @@ lobster.js は、標準のMarkdownの画像構文に加え、`width` / `height` 
 
 ---
 
-## HTML出力
+## HTML 出力
 
-サイズ指定子は標準のHTML属性にマッピングされます:
+サイズ指定子は標準の HTML 属性にマッピングされます:
 
 ```html
 <!-- ![alt](url =400x) -->
