@@ -1,69 +1,66 @@
-# Code Blocks
+# コードブロック [(Code Blocks)](https://hacknock.github.io/lobster-wiki/?page=example-code)
 
-lobster.js renders both **inline code** and **fenced code blocks**, with optional filename annotations and syntax highlighting integration.
+lobster.jsは、**インラインコード**と**フェンス付きコードブロック**の両方をレンダリングし、オプションでファイル名のアノテーションとシンタックスハイライトの統合を提供します。
 
-## Inline code
+## インラインコード
 
-Wrap text in backticks for inline code:
+インラインコードはバッククォートでテキストを囲みます:
 
 ```markdown
-Call `loadMarkdown(src, container)` to render Markdown into the DOM.
+MarkdownをDOMにレンダリングするには `loadMarkdown(src, container)` を呼び出します。
 ```
 
-**Result:**
+**結果:**
 
-Call `loadMarkdown(src, container)` to render Markdown into the DOM.
+MarkdownをDOMにレンダリングするには `loadMarkdown(src, container)` を呼び出します。
 
-## Fenced code blocks
+## フェンス付きコードブロック
 
-Use triple backticks. Add a language identifier for syntax highlighting:
+3つのバッククォートを使用します。シンタックスハイライトのために言語識別子を追加します:
 
 ````markdown
 ```js
 import { loadMarkdown } from "https://hacknock.github.io/lobsterjs/lobster.js";
-
 loadMarkdown("./content.md", document.getElementById("content"));
 ```
 ````
 
-**Result:**
+**結果:**
 
 ```js
 import { loadMarkdown } from "https://hacknock.github.io/lobsterjs/lobster.js";
-
 loadMarkdown("./content.md", document.getElementById("content"));
 ```
 
-## Code block with filename
+## ファイル名付きコードブロック
 
-Add a filename on the line immediately before the opening fence:
+開始フェンスの直前の行にファイル名を追加します:
 
 ````markdown
 ```html style.css
-body {
-  font-family: system-ui, sans-serif;
-}
+body { font-family: system-ui, sans-serif; }
 ```
 ````
 
-**Result:**
+**結果:**
 
 ```html style.css
-body {
-  font-family: system-ui, sans-serif;
-}
+body { font-family: system-ui, sans-serif; }
 ```
 
-The filename is rendered as a `.lbs-code-filename` element above the code.
+ファイル名はコードの上部に `.lbs-code-filename` 要素としてレンダリングされます。
 
-## Supported languages
+## サポートされている言語
 
-lobster.js emits a `language-*` class on the `<code>` element — the standard convention used by popular highlighters. No highlighter is bundled; add your own:
+lobster.js は、人気のあるハイライターで使用される標準的な規則である、`<code>` 要素に`language-\*` クラスを出力します。ハイライターはバンドルされていないため、ご自身で追加してください:
 
 ### Prism.js
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism.min.css" />
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism.min.css"
+/>
 <script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/prismjs/plugins/autoloader/prism-autoloader.min.js"></script>
 ```
@@ -79,9 +76,9 @@ import hljs from "highlight.js";
 loadMarkdown("./content.md", content).then(() => hljs.highlightAll());
 ```
 
-## HTML output
+## HTML出力
 
-A fenced code block with a language and filename renders as:
+言語とファイル名を含むフェンス付きコードブロックは次のようにレンダリングされます:
 
 ```html
 <div class="lbs-code-block">
@@ -90,4 +87,4 @@ A fenced code block with a language and filename renders as:
 </div>
 ```
 
-Style it via `.lbs-code-block`, `.lbs-code-filename`, and standard `pre` / `code` selectors.
+`.lbs-code-block`、`.lbs-code-filename`、標準の `pre` / `code` セレクターを使用してスタイルを設定します。

@@ -1,139 +1,132 @@
-# Tables
+# テーブル [(Tables)](https://hacknock.github.io/lobster-wiki/?page=example-table)
 
-lobster.js supports standard Markdown tables plus two powerful extensions: **cell merging** and **silent tables** for layout grids.
+lobster.js は、標準のMarkdownテーブルに加え、**セルの結合**と、レイアウトグリッド用の**サイレントテーブル**という2つの強力な拡張機能をサポートしています。
 
-## Standard table
+## 標準テーブル
 
 ```markdown
-| Name       | Type    | Description                  |
-| :--------- | :------ | :--------------------------- |
-| `src`      | string  | Path or URL to Markdown file |
-| `container`| Element | Target DOM element           |
-| returns    | Promise | Resolves when rendered       |
+| 名前        | 型      | 説明                              |
+| :---------- | :------ | :-------------------------------- |
+| `src`       | string  | MarkdownファイルへのパスまたはURL |
+| `container` | Element | ターゲットのDOM要素               |
+| returns     | Promise | レンダリングが完了した時に解決    |
 ```
 
-**Result:**
+**結果:**
+| 名前 | 型 | 説明 |
+| :---------- | :------ | :----------------------------- |
+| `src` | string | MarkdownファイルへのパスまたはURL |
+| `container` | Element | ターゲットのDOM要素 |
+| returns | Promise | レンダリングが完了した時に解決 |
 
-| Name        | Type    | Description                  |
-| :---------- | :------ | :--------------------------- |
-| `src`       | string  | Path or URL to Markdown file |
-| `container` | Element | Target DOM element           |
-| returns     | Promise | Resolves when rendered       |
+## 列の配置
 
-## Column alignment
-
-Use `:---`, `:---:`, and `---:` in the separator row:
+区切り行で `:---`、`:---:`、および `---:` を使用します:
 
 ```markdown
-| Left      | Center      | Right      |
-| :-------- | :---------: | ---------: |
-| apple     | banana      | cherry     |
-| 1         | 2           | 3          |
+| 左寄せ | 中央寄せ |     右寄せ |
+| :----- | :------: | ---------: |
+| りんご |  バナナ  | さくらんぼ |
+| 1      |    2     |          3 |
 ```
 
-**Result:**
+**結果:**
+| 左寄せ | 中央寄せ | 右寄せ |
+| :----- | :------: | -----: |
+| りんご | バナナ | さくらんぼ |
+| 1 | 2 | 3 |
 
-| Left  | Center | Right  |
-| :---- | :----: | -----: |
-| apple | banana | cherry |
-| 1     | 2      | 3      |
+## セルの結合
 
-## Cell merging
+### 水平方向の結合
 
-### Horizontal merge
-
-Append `\|` to a cell's content to extend it one column to the right. Works in **header rows** and **body rows** alike. The slot immediately after the `\|` cell is consumed by the merge:
+セルの内容に `\|` を追加すると、右側の1列分拡張されます。**ヘッダー行**と**本文行**の両方で機能します。`\|` セルの直後のスロットは結合によって消費されます:
 
 ```markdown
-| Product | EMEA \|  | APAC \| |
-| :------ | ---:  | ---: | ---:  | ---: |
-|         | Q1    | Q2   | Q1    | Q2   |
-| Alpha   | 100   | 120  | 80    | 90   |
-| Beta    | 95    | 115  | 75    | 85   |
+| 製品  | EMEA \| | APAC \| |
+| :---- | ------: | ------: | --: | --: |
+|       |      Q1 |      Q2 |  Q1 |  Q2 |
+| Alpha |     100 |     120 |  80 |  90 |
+| Beta  |      95 |     115 |  75 |  85 |
 ```
 
-**Result:**
-
-| Product | EMEA \|  | APAC \| |
-| :------ | ---:  | ---: | ---:  | ---: |
-|         | Q1    | Q2   | Q1    | Q2   |
-| Alpha   | 100   | 120  | 80    | 90   |
-| Beta    | 95    | 115  | 75    | 85   |
-
-Body-row-only example:
+**結果:**
+| 製品 | EMEA \| | APAC \| |
+| :------ | ---: | ---: | ---: | ---: |
+| | Q1 | Q2 | Q1 | Q2 |
+| Alpha | 100 | 120 | 80 | 90 |
+| Beta | 95 | 115 | 75 | 85 |
+本文行のみの例:
 
 ```markdown
-| Feature     | lobster.js | Standard MD |
+| 機能           | lobster.js | 標準MD |
+| :------------- | :--------: | :----: |
+| テーブル       |     ✓      |   ✓    |
+| セル結合       |  ✓のみ \|  |
+| ワープブロック |  ✓のみ \|  |
+```
+
+**結果:**
+| 機能 | lobster.js | 標準MD |
 | :---------- | :--------: | :---------: |
-| Tables      | ✓          | ✓           |
-| Cell merge  | ✓ only \|  |
-| Warp blocks | ✓ only \|  |
-```
+| テーブル | ✓ | ✓ |
+| セル結合 | ✓のみ \| |
+| ワープブロック | ✓のみ \| |
 
-**Result:**
+### 垂直方向の結合
 
-| Feature     | lobster.js | Standard MD |
-| :---------- | :--------: | :---------: |
-| Tables      | ✓          | ✓           |
-| Cell merge  | ✓ only \|  |
-| Warp blocks | ✓ only \|  |
-
-### Vertical merge
-
-Write `\---` in a cell to merge it with the cell above:
+セル内に `\---` と記述すると、上のセルと結合されます:
 
 ```markdown
-| Browser | Engine    |
-| :------ | :-------- |
-| Chrome  | Blink     |
-| Edge    | \---      |
-| Firefox | Gecko     |
-| Safari  | WebKit    |
+| ブラウザ | エンジン |
+| :------- | :------- |
+| Chrome   | Blink    |
+| Edge     | \---     |
+| Firefox  | Gecko    |
+
+| Safari | WebKit |
 ```
 
-**Result:**
+**結果:**
+| ブラウザ | エンジン |
+| :------- | :------- |
+| Chrome | Blink |
+| Edge | \--- |
+| Firefox | Gecko |
+| Safari | WebKit |
 
-| Browser | Engine |
-| :------ | :----- |
-| Chrome  | Blink  |
-| Edge    | \---   |
-| Firefox | Gecko  |
-| Safari  | WebKit |
-
-### Combined merging
+### 結合の組み合わせ
 
 ```markdown
-| Region  | Q1     | Q2   |
-| :------ | :---   | :--- |
-| Europe  | 120    | 150  |
-| \---    | 130 \| |
-| Asia    | 200    | 180  |
+| 地域       | Q1     | Q2  |
+| :--------- | :----- | :-- |
+| ヨーロッパ | 120    | 150 |
+| \---       | 130 \| |
+| アジア     | 200    | 180 |
 ```
 
-**Result:**
+**結果:**
+| 地域 | Q1 | Q2 |
+| :------ | :--- | :--- |
+| ヨーロッパ | 120 | 150 |
+| \--- | 130 \| |
+| アジア | 200 | 180 |
 
-| Region  | Q1     | Q2   |
-| :------ | :---   | :--- |
-| Europe  | 120    | 150  |
-| \---    | 130 \| |
-| Asia    | 200    | 180  |
+## サイレントテーブル(レイアウトグリッド)
 
-## Silent table (layout grid)
-
-Prefix each row with `~ ` to create a borderless layout grid. Great for side-by-side comparisons:
+各行の先頭に `~ ` を付けると、境界線のないレイアウトグリッドが作成されます。左右に並べて比較するのに最適です:
 
 ```markdown
-~ | Left column           | Right column          |
-~ | :---                  | :---                  |
-~ | Content on the left.  | Content on the right. |
-~ | More left content.    | More right content.   |
+~ | 左カラム | 右カラム |
+~ | :--- | :--- |
+~ | 左側のコンテンツです。| 右側のコンテンツです。|
+~ | さらに左のコンテンツ。| さらに右のコンテンツ。|
 ```
 
-**Result:**
+**結果:**
+~ | 左カラム | 右カラム |
+~ | :--- | :--- |
+~ | 左側のコンテンツです。| 右側のコンテンツです。|
+~ | さらに左のコンテンツ。| さらに右のコンテンツ。|
 
-~ | Left column          | Right column          |
-~ | :---                 | :---                  |
-~ | Content on the left. | Content on the right. |
-~ | More left content.   | More right content.   |
-
-Silent tables are the building block for multi-column layouts with **Warp** — see the [Warp / Multi-column](?page=example-warp) page.
+サイレントテーブルは、**ワープ(Warp)** を使用したマルチカラムレイアウトの構成要素です — 詳細については、[ワープ / マルチカラム](?page=example-warp-ja) ページを参照してください。

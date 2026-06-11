@@ -1,12 +1,12 @@
-# Introduction
+# はじめに [(Introduction)](https://hacknock.github.io/lobster-wiki/)
 
-**lobster.js** is an extended Markdown parser that renders rich, structured web pages directly in the browser — no build step, no framework required.
+**lobster.js** は、ブラウザ上で直接、リッチで構造化されたウェブページをレンダリングする拡張Markdown パーサーです。ビルドステップやフレームワークは必要ありません。
 
-You write a Markdown file, point lobster.js at it, and get a fully structured HTML document. Appearance is entirely up to CSS via predictable `lbs-*` class names.
+Markdown ファイルを書き、それを lobster.js に指定するだけで、完全に構造化されたHTML ドキュメントが得られます。外観は、予測可能な `lbs-*` クラス名を使用した CSS に完全に委ねられています。
 
-## Quick start
+## クイックスタート
 
-Add a single `<script type="module">` to your HTML:
+HTMLに`<script type="module">` を1つ追加してください:
 
 ```html
 <!DOCTYPE html>
@@ -24,71 +24,70 @@ Add a single `<script type="module">` to your HTML:
 </html>
 ```
 
-That's it. No npm install. No bundler. No configuration.
+これだけです。npm install は不要です。バンドラーも不要です。設定も不要です。
 
-## Features
+## 機能
 
-| Category | What you get |
-| :--- | :--- |
-| Standard Markdown | Headings, paragraphs, bold, italic, strikethrough, code, blockquotes, lists, tables, links, images |
-| Extended syntax | `:::header` / `:::footer`, `:::details`, `:::warp`, silent tables, cell merging, image sizing, footnotes |
-| CSS-first | Every element gets a `lbs-*` class — bring your own stylesheet |
-| Multi-file | Pass an array to `loadMarkdown` to merge files; warp/link/footnote refs are shared |
-| TypeScript | Full type definitions included |
+| カテゴリー    | 取得できるもの                                                                                         |
+| :------------ | :----------------------------------------------------------------------------------------------------- |
+| 標準 Markdown | 見出し、段落、太字、斜体、取り消し線、コード、引用、リスト、テーブル、リンク、画像                     |
+| 拡張構文      | `:::header` / `:::footer`、`:::details`、`:::warp`、サイレントテーブル、セル結合、画像サイズ調整、脚注 |
+| CSS-first     | すべての要素に `lbs-*` クラスが付与されます — 独自のスタイルシートを使用してください                   |
+| 複数ファイル  | `loadMarkdown` に配列を渡してファイルをマージします。ワープ/リンク/脚注の参照は共有されます            |
+| TypeScript    | 完全な型定義が含まれています                                                                           |
 
-## API at a glance
+## APIの概要
 
 ### `loadMarkdown(src, container)`
 
-Fetches and renders Markdown into a DOM element.
+MarkdownをフェッチしてDOM要素にレンダリングします。
 
 ```js
 import { loadMarkdown } from "./lobster.js";
-
-// Single file
+// 単一ファイル
 loadMarkdown("./content.md", document.getElementById("content"));
 
-// Multiple files — merged before parsing
+// 複数ファイル — 解析前にマージされる
 loadMarkdown(["./shared.md", "./page.md"], document.getElementById("content"));
 ```
 
 ### `toHTML(markdown)`
 
-One-liner for server-side or offline use:
+サーバーサイドまたはオフラインでの使用向けの一行コード:
 
 ```js
 import { toHTML } from "lobsterjs";
 const html = toHTML("# Hello **world**");
 ```
 
-## Extended syntax overview
+## 拡張構文の概要
 
-lobster.js adds the following on top of standard Markdown:
+lobster.js は、標準のMarkdownに加えて以下の機能を追加します:
 
-- **`:::header` / `:::footer`** — semantic page regions
-- **`:::details`** — native `<details>` / `<summary>` collapsible blocks
-- **`:::warp`** — define content once, place it anywhere (multi-column layouts)
-- **Silent tables** (`~ | … |`) — borderless layout grids
-- **Cell merging** — horizontal (`\|`) and vertical (`\---`) spans
-- **Image sizing** — `![alt](url =800x)`
-- **Footnotes** — reference (`[^id]`) and inline (`^[text]`)
+- **`:::header` / `:::footer`** — セマンティックなページ領域
+- **`:::details`** — ネイティブな `/` 折りたたみブロック
+- **`:::warp`** — コンテンツを一度定義し、どこにでも配置 (マルチカラムレイアウト)
+- **サイレントテーブル** (`~ | ... |`) — 境界線のないレイアウトグリッド
+- **セル結合** — 水平方向 (`\|`) と垂直方向 (`\---`) の結合
+- **画像のサイズ調整** — `![alt](url =800x)`
+- **脚注** — 参照 (`[^id]`) とインライン (`^[text]`)
 
-Explore each feature in the sidebar examples.
+各機能については、サイドバーの例をご覧ください。
 
-## CSS classes
+## CSSクラス
 
-Every rendered element carries a `lbs-*` class. No default stylesheet is bundled.
+レンダリングされたすべての要素には `lbs-*` クラスが付きます。デフォルトのスタイルシートはバンドルされていません。
 
 ```
-lbs-heading-1 … lbs-heading-6   Headings
-lbs-paragraph                    Paragraph
-lbs-emphasis / lbs-strong        Inline
-lbs-code-span / lbs-code-block   Code
-lbs-table / lbs-table-silent     Tables
-lbs-details / lbs-summary        Collapsible
-lbs-footnote-ref / lbs-footnotes Footnotes
+lbs-heading-1 … lbs-heading-6 見出し (Headings)
+lbs-paragraph 段落 (Paragraph)
+lbs-emphasis / lbs-strong インライン (Inline)
+lbs-code-span / lbs-code-block コード (Code)
+lbs-table / lbs-table-silent テーブル (Tables)
+lbs-details / lbs-summary 折りたたみ (Collapsible)
+lbs-footnote-ref / lbs-footnotes 脚注 (Footnotes)
 ```
 
 ---
 
-> **This site** is built with [lobster-wiki](https://github.com/Hacknock/lobster-wiki), a Markdown-driven wiki extension for lobster.js.
+> **このサイト**は、lobster.js 用の Markdown ベースの wiki 拡張機能である [lobster-wiki](https://github.com/Hacknock/lobster-wiki) を使用して構築されています。

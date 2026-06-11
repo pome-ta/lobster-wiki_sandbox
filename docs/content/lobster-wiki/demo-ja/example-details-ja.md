@@ -1,88 +1,83 @@
-# Details / Collapsible
+# 詳細 / 折りたたみ [(Details / Collapsible)](https://hacknock.github.io/lobster-wiki/?page=example-details)
 
-The `:::details` block renders as a native HTML `<details>` / `<summary>` element — no JavaScript required for the toggle behavior.
+`:::details` ブロックは、ネイティブなHTMLの `<details>` / `<summary>` 要素としてレンダリングされます。切り替えの動作にJavaScript は必要ありません。
 
-## Basic usage
+## 基本的な使い方
 
 ```markdown
-:::details Click to expand
-Hidden content is revealed when the user clicks the summary.
+:::details クリックして展開
+ユーザーがサマリーをクリックすると、非表示のコンテンツが表示されます。
 
-You can put **any** Markdown here — paragraphs, lists, code blocks, tables.
+ここには、段落、リスト、コードブロック、テーブルなど、**任意の** Markdownを記述できます。
 :::
 ```
 
-**Result:**
+**結果:**
 
-:::details Click to expand
-Hidden content is revealed when the user clicks the summary.
+:::details クリックして展開
+ユーザーがサマリーをクリックすると、非表示のコンテンツが表示されます。
 
-You can put **any** Markdown here — paragraphs, lists, code blocks, tables.
+ここには、段落、リスト、コードブロック、テーブルなど、**任意の** Markdownを記述できます。
 :::
 
-## Rich content inside details
+## details内のリッチコンテンツ
 
-Any lobster.js Markdown is valid inside a `:::details` block:
+`:::details` ブロック内では、すべての lobster.js Markdown が有効です:
 
 ```markdown
-:::details API reference
-
-| Function        | Returns  | Description             |
-| :-------------- | :------- | :---------------------- |
-| `loadMarkdown`  | Promise  | Fetch & render to DOM   |
-| `toHTML`        | string   | Parse & render to HTML  |
-| `parseDocument` | Document | Parse to AST            |
-| `renderDocument`| string   | Render AST to HTML      |
-
+:::details API リファレンス
+| 関数 | 戻り値 | 説明 |
+| :--------------- | :------- | :---------------------------- |
+| `loadMarkdown` | Promise | フェッチしてDOMにレンダリング |
+| `toHTML` | string | 解析してHTMLにレンダリング |
+| `parseDocument` | Document | ASTに解析 |
+| `renderDocument` | string | ASTをHTMLにレンダリング |
 :::
 ```
 
-**Result:**
+**結果:**
 
-:::details API reference
+:::details API リファレンス
 
-| Function         | Returns  | Description            |
-| :--------------- | :------- | :--------------------- |
-| `loadMarkdown`   | Promise  | Fetch & render to DOM  |
-| `toHTML`         | string   | Parse & render to HTML |
-| `parseDocument`  | Document | Parse to AST           |
-| `renderDocument` | string   | Render AST to HTML     |
+| 関数             | 戻り値   | 説明                          |
+| :--------------- | :------- | :---------------------------- |
+| `loadMarkdown`   | Promise  | フェッチしてDOMにレンダリング |
+| `toHTML`         | string   | 解析してHTMLにレンダリング    |
+| `parseDocument`  | Document | ASTに解析                     |
+| `renderDocument` | string   | ASTをHTMLにレンダリング       |
 
 :::
 
-## Code in details
+## details内のコード
 
-:::details Show full example
+:::details 完全な例を表示
 
 ```js
 import { loadMarkdown } from "https://hacknock.github.io/lobsterjs/lobster.js";
-
 const content = document.getElementById("content");
-
-// Single file
+// 単一ファイル
 await loadMarkdown("./content.md", content);
-
-// Multiple files — merged before parsing
+// 複数ファイル — 解析前にマージされる
 await loadMarkdown(["./shared.md", "./content.md"], content);
 ```
 
 :::
 
-## Multiple collapsible sections
+## 複数の折りたたみセクション
 
-:::details What is a warp block?
-A warp block (`:::warp id`) lets you define content once and place it anywhere via `[~id]` references. It's the foundation of multi-column layouts.
+:::details ワープ(warp)ブロックとは何ですか?
+ワープブロック (`:::warp id`) を使用すると、コンテンツを一度定義し、`[~id]` 参照を介してどこにでも配置できます。これはマルチカラムレイアウトの基礎です。
 :::
 
-:::details Does lobster.js require npm?
-No. You can use it directly via CDN with a `<script type="module">`. No npm, no bundler, no build step required.
+:::details lobster.js は npm を必要としますか?
+いいえ。`<script type="module">` のCDN経由で直接使用できます。npm、バンドラー、ビルド手順は不要です。
 :::
 
-:::details What CSS classes does lobster.js use?
-Every element gets an `lbs-*` class. See the [Introduction](?page=intro) for the full class reference.
+:::details lobster.jsはどのCSSクラスを使用していますか？
+すべての要素には`lbs-*`クラスが付与されます。クラスの完全なリファレンスについては、[Introduction](?page=intro) を参照してください。
 :::
 
-## HTML output
+## HTML出力
 
 ```html
 <details class="lbs-details">
@@ -91,4 +86,4 @@ Every element gets an `lbs-*` class. See the [Introduction](?page=intro) for the
 </details>
 ```
 
-The `open` attribute works as expected — browsers remember the state and screen readers announce it correctly.
+`open` 属性は期待どおりに機能します。ブラウザは状態を記憶し、スクリーンリーダーはそれを正しく読み上げます。

@@ -1,62 +1,64 @@
-# Footnotes
+# 脚注 [(Footnotes)](https://hacknock.github.io/lobster-wiki/?page=example-footnotes)
 
-lobster.js supports two footnote styles: **reference footnotes** defined separately, and **inline footnotes** written right in the text.
+lobster.js は2つのスタイルの脚注をサポートしています。個別に定義する**参照脚注**と、テキスト内に直接記述する**インライン脚注**です。
 
-## Reference footnotes
+## 参照脚注
 
-Add `[^id]` in the text and define the note anywhere in the document with `[^id]: …`:
-
-```markdown
-Lobster[^1] is both a crustacean and a Markdown parser[^parser].
-
-[^1]: The crustacean kind has ten legs and lives in the ocean.
-[^parser]: The parser kind has zero legs and lives in your browser.
-```
-
-**Result:**
-
-Lobster[^1] is both a crustacean and a Markdown parser[^parser].
-
-[^1]: The crustacean kind has ten legs and lives in the ocean.
-[^parser]: The parser kind has zero legs and lives in your browser.
-
-Footnote definitions are collected and rendered at the bottom of the page as a numbered list.
-
-## Inline footnotes
-
-Use `^[…]` to write the note content directly in the text — no separate definition needed:
+テキスト内に `[^id]` を追加し、ドキュメント内の任意の場所に `[^id]: ...` で注釈を定義します:
 
 ```markdown
-The CDN URL^[https://hacknock.github.io/lobsterjs/lobster.js] is always up to date.
+ロブスター[^1] は甲殻類でもあり、Markdownパーサー[^parser] でもあります。
 
-lobster.js^[Named after the crustacean — both are ancient, armored, and unexpectedly useful.] is CSS-first.
+[^1]: 甲殻類は10本の脚を持ち、海に住んでいます。
+
+[^parser]: パーサーは脚が0本で、あなたのブラウザに住んでいます。
 ```
 
-**Result:**
+**結果:**
 
-The CDN URL^[https://hacknock.github.io/lobsterjs/lobster.js] is always up to date.
+ロブスター[^1] は甲殻類でもあり、Markdownパーサー[^parser] でもあります。
 
-lobster.js^[Named after the crustacean — both are ancient, armored, and unexpectedly useful.] is CSS-first.
+[^1]: 甲殻類は10本の脚を持ち、海に住んでいます。
 
-## Mixing both styles
+[^parser]:
+    パーサーは脚が0本で、あなたのブラウザに住んでいます。
+    脚注の定義は収集され、ページの最後に番号付きリストとしてレンダリングされます。
 
-You can freely mix reference and inline footnotes on the same page:
+## インライン脚注
+
+テキスト内に直接注釈のコンテンツを記述するには `^[...]` を使用します。個別の定義は必要ありません:
 
 ```markdown
-Use `loadMarkdown`[^api] to render content^[Rendered into any HTMLElement you provide.].
+CDNのURL^[https://hacknock.github.io/lobsterjs/lobster.js] は常に最新です。
 
-[^api]: See the Introduction page for the full API reference.
+lobster.js^[甲殻類にちなんで名付けられました — どちらも古く、装甲があり、予想外に役立ちます。] は CSS-first です。
 ```
 
-**Result:**
+**結果:**
 
-Use `loadMarkdown`[^api] to render content^[Rendered into any HTMLElement you provide.].
+CDNのURL^[https://hacknock.github.io/lobsterjs/lobster.js] は常に最新です。
 
-[^api]: See the Introduction page for the full API reference.
+lobster.js^[甲殻類にちなんで名付けられました — どちらも古く、装甲があり、予想外に役立ちます。] は CSS-first です。
 
-## Footnote rendering
+## 両方のスタイルの混在
 
-All footnotes — reference and inline — are collected and rendered at the bottom of the page inside a `.lbs-footnotes` container:
+同じページ内で参照脚注とインライン脚注を自由に混在させることができます:
+
+```markdown
+コンテンツをレンダリングするには `loadMarkdown`[^api] を使用します^[提供された任意の HTMLElement にレンダリングされます。]。
+
+[^api]: 完全なAPIリファレンスについては、はじめにのページをご覧ください。
+```
+
+**結果:**
+
+コンテンツをレンダリングするには `loadMarkdown`[^api] を使用します^[提供された任意の HTMLElement にレンダリングされます。]。
+
+[^api]: 完全なAPIリファレンスについては、はじめにのページをご覧ください。
+
+## 脚注のレンダリング
+
+すべての脚注(参照およびインライン)は収集され、ページの下部にある`.lbs-footnotes` コンテナ内にレンダリングされます:
 
 ```html
 <section class="lbs-footnotes">
@@ -66,4 +68,4 @@ All footnotes — reference and inline — are collected and rendered at the bot
 </section>
 ```
 
-The superscript reference links (`[1]`) are wrapped in `.lbs-footnote-ref` and link down to the footnote item.
+上付き文字の参照リンク(`[1]`)は `.lbs-footnote-ref` にラップされ、下部の脚注アイテムにリンクされます。

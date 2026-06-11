@@ -1,139 +1,144 @@
-# Warp / Multi-column
+# ワープ / マルチカラム [(Warp / Multi-column)](https://hacknock.github.io/lobster-wiki/?page=example-warp)
 
-The **Warp** system lets you define content once and place it anywhere in the layout — including inside silent table cells for multi-column layouts.
+**ワープ (Warp)** システムを使用すると、コンテンツを一度定義し、レイアウト内のどこにでも配置できます — マルチカラムレイアウトのためのサイレントテーブルのセル内も含みます。
 
-## How Warp works
+## ワープの仕組み
 
-1. Define a warp block with `:::warp id`
-2. Reference it anywhere with `[~id]`
+1. `:::warp id` でワープブロックを定義します
+2. `[~id]` でどこからでもそれを参照します
 
 ```markdown
 :::warp my-block
-This content can be placed anywhere.
+このコンテンツはどこにでも配置できます。
 :::
 
-See it here: [~my-block]
+ここを見てください: [~my-block]
 ```
 
-The warp block itself is hidden. Only the reference renders the content.
+ワープブロック自体は非表示です。参照だけがコンテンツをレンダリングします。
 
-## Two-column layout
+## 2カラムのレイアウト
 
-Combine a **silent table** with **warp references** to create a two-column layout:
+**サイレントテーブル** と **ワープ参照** を組み合わせて、2カラムのレイアウトを作成します:
 
 ```markdown
-~ |          Left           |          Right          |
-~ | :---                    | :---                    |
-~ | [~col-left]             | [~col-right]            |
-
+~ | Left | Right |
+~ | :--- | :--- |
+~ | [~col-left] | [~col-right] |
 :::warp col-left
-### Left column
 
-Standard Markdown **works** inside warp blocks.
+### 左カラム
 
-- Item A
-- Item B
-- Item C
+標準のMarkdownはワープブロック内でも**機能**します。
+
+- アイテム A
+- アイテム B
+- アイテム C
+
 :::
 
 :::warp col-right
-### Right column
 
-You can put *any* content here — tables, code, images, even nested warp references.
+### 右カラム
 
-> Blockquotes work too.
+ここには、テーブル、コード、画像、ネストされたワープ参照など、_任意の_ コンテンツを置くことができます。
+
+> 引用ブロックも機能します。
 :::
 ```
 
-**Result:**
+**結果:**
 
-~ |          Left           |          Right          |
-~ | :---                    | :---                    |
-~ | [~col-left]             | [~col-right]            |
+~ | Left | Right |
+~ | :--- | :--- |
+~ | [~col-left] | [~col-right] |
 
 :::warp col-left
-### Left column
 
-Standard Markdown **works** inside warp blocks.
+### 左カラム
 
-- Item A
-- Item B
-- Item C
+標準のMarkdownはワープブロック内でも**機能**します。
+
+- アイテム A
+- アイテム B
+- アイテム C
 :::
 
 :::warp col-right
-### Right column
 
-You can put *any* content here — tables, code, images, even nested warp references.
+### 右カラム
 
-> Blockquotes work too.
+ここには、テーブル、コード、画像、ネストされたワープ参照など、_任意の_ コンテンツ
+を置くことができます。
+
+> 引用ブロックも機能します。
 :::
 
-## Three-column layout
+## 3カラムのレイアウト
 
-Silent tables support any number of columns:
+サイレントテーブルは任意の数の列をサポートします:
 
 ```markdown
-~ |                  |                 |                |
-~ | :---             | :---            | :---           |
-~ | [~c1]            | [~c2]           | [~c3]          |
-
-:::warp c1
-**Column 1**
-
-Parse
-:::
-
-:::warp c2
-**Column 2**
-
-Render
-:::
-
-:::warp c3
-**Column 3**
-
-Display
-:::
-```
-
-**Result:**
-
-~ |  |  |  |
+~ | | | |
 ~ | :--- | :--- | :--- |
 ~ | [~c1] | [~c2] | [~c3] |
 
 :::warp c1
-**Column 1**
+**カラム 1**
 
-Parse
+解析 (Parse)
 :::
 
 :::warp c2
-**Column 2**
+**カラム 2**
 
-Render
+レンダリング (Render)
 :::
 
 :::warp c3
-**Column 3**
+**カラム 3**
 
-Display
+表示 (Display)
+:::
+```
+
+**結果:**
+
+~ | | | |
+~ | :--- | :--- | :--- |
+~ | [~c1] | [~c2] | [~c3] |
+
+:::warp c1
+**カラム 1**
+
+解析 (Parse)
 :::
 
-## Warp across multiple files
+:::warp c2
+**カラム 2**
 
-When you load multiple files with `loadMarkdown`, warp definitions are shared across all files:
+レンダリング (Render)
+:::
+
+:::warp c3
+**カラム 3**
+
+表示 (Display)
+:::
+
+## 複数ファイルにまたがるワープ
+
+`loadMarkdown` を使って複数のファイルを読み込む場合、ワープの定義はすべてのファイル間で共有されます:
 
 ```js
 loadMarkdown(["./shared.md", "./page.md"], container);
 ```
 
-Define warps in `shared.md`, reference them in `page.md` — they resolve correctly because all files are merged before parsing.
+`shared.md` でワープを定義し、`page.md` でそれを参照します — すべてのファイルが解析前にマージされるため、正しく解決されます。
 
-## Key rules
+## 重要なルール
 
-- A `:::warp` block **must** have an id: `:::warp my-id`
-- The `[~id]` reference can appear **before or after** the definition
-- Warp blocks render as hidden elements (`display: none`) in the output
-- References are replaced inline with the warp block's content
+- `:::warp` ブロックには**必ず**IDが必要です:`:::warp my-id`
+- `[~id]` 参照は、定義の**前または後**に配置できます
+- ワープブロックは出力では非表示要素 (`display: none`) としてレンダリングされます
+- 参照は、ワープブロックのコンテンツにインラインで置き換えられます

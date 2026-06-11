@@ -1,161 +1,157 @@
-# Images
+# 画像 [(Images)](https://hacknock.github.io/lobster-wiki/?page=example-image)
 
-lobster.js supports standard Markdown image syntax plus an **optional size specifier** `=WxH` that maps directly to `width` / `height` attributes — no CSS required.
+lobster.js は、標準のMarkdownの画像構文に加え、`width` / `height` 属性に直接マッピングされる**オプションのサイズ指定子** `=WxH` をサポートしています。CSSは必要ありません。
 
-## Basic image
+## 基本的な画像
 
 ```markdown
-![Sample wide image](../images/sample-wide.png)
+![サンプルの横長画像](https://hacknock.github.io/lobster-wiki/images/sample-wide.png)
 ```
 
-**Result:**
+**結果:**
 
-![Sample wide image](../images/sample-wide.png)
+![サンプルの横長画像](https://hacknock.github.io/lobster-wiki/images/sample-wide.png)
 
 ---
 
-## Image sizing
+## 画像のサイズ調整
 
-Append `=WxH` (in pixels) to the URL inside the parentheses. Either dimension can be omitted.
+括弧内のURLに `=WxH` (ピクセル単位) を追加します。どちらの寸法も省略可能です。
 
-### Width only — `=400x`
+### 幅のみ — `=400x`
 
-Scales the image to 400 px wide; height is proportional.
-
-```markdown
-![Sample =400x](../images/sample-wide.png =400x)
-```
-
-![Sample =400x](../images/sample-wide.png =400x)
-
-### Width only — `=200x`
+画像を幅400ピクセルに拡大縮小します。高さは比例します。
 
 ```markdown
-![Sample =200x](../images/sample-wide.png =200x)
+![サンプル =400x](https://hacknock.github.io/lobster-wiki/images/sample-wide.png =400x)
 ```
 
-![Sample =200x](../images/sample-wide.png =200x)
+![サンプル =400x](https://hacknock.github.io/lobster-wiki/images/sample-wide.png =400x)
 
-### Explicit width × height — `=300x150`
+### 幅のみ — `=200x`
 
 ```markdown
-![Sample =300x150](../images/sample-wide.png =300x150)
+![サンプル =200x](https://hacknock.github.io/lobster-wiki/images/sample-wide.png =200x)
 ```
 
-![Sample =300x150](../images/sample-wide.png =300x150)
+![サンプル =200x](https://hacknock.github.io/lobster-wiki/images/sample-wide.png =200x)
 
-### Thumbnail — `=80x80`
+### 明示的な 幅 × 高さ — `=300x150`
 
 ```markdown
-![Thumb](../images/sample-square.png =80x80)
-![Thumb](../images/sample-square.png =80x80)
-![Thumb](../images/sample-square.png =80x80)
+![サンプル =300x150](https://hacknock.github.io/lobster-wiki/images/sample-wide.png =300x150)
 ```
 
-![Thumb](../images/sample-square.png =80x80)
-![Thumb](../images/sample-square.png =80x80)
-![Thumb](../images/sample-square.png =80x80)
+![サンプル =300x150](https://hacknock.github.io/lobster-wiki/images/sample-wide.png =300x150)
+
+### サムネイル — `=80x80`
+
+```markdown
+![サムネイル](https://hacknock.github.io/lobster-wiki/images/sample-square.png =80x80)
+![サムネイル](https://hacknock.github.io/lobster-wiki/images/sample-square.png =80x80)
+![サムネイル](https://hacknock.github.io/lobster-wiki/images/sample-square.png =80x80)
+```
+
+![サムネイル](https://hacknock.github.io/lobster-wiki/images/sample-square.png =80x80)
+![サムネイル](https://hacknock.github.io/lobster-wiki/images/sample-square.png =80x80)
+![サムネイル](https://hacknock.github.io/lobster-wiki/images/sample-square.png =80x80)
 
 ---
 
-## Image + text layout
+## 画像 + テキストのレイアウト
 
-Combine a **silent table** with **warp blocks** to place an image beside text.
+**サイレントテーブル (silent table)** と **ワープブロック (warp blocks)** を組み合わせて、テキストの横に画像を配置します。
 
 ```markdown
-~ |                     |                         |
-~ | :---                | :---                    |
-~ | [~img-col]          | [~text-col]             |
-
+~ | | |
+~ | :--- | :--- |
+~ | [~img-col] | [~text-col] |
 :::warp img-col
-![Photo](../images/sample-square.png =240x)
+![写真](https://hacknock.github.io/lobster-wiki/images/sample-square.png =240x)
 :::
-
 :::warp text-col
-### Caption goes here
 
-Use a **silent table** (`~ | … |`) as a borderless grid and **warp blocks**
-to define column content independently from the layout declaration.
+### キャプションがここに入ります
 
-This pattern works for any combination — image left, image right,
-or multiple columns of mixed content.
+**サイレントテーブル** (`~ | ... |`) を境界線のないグリッドとして使用し、**ワープブロック** を使用して、レイアウト宣言とは独立して列の内容を定義します。
+
+このパターンは、画像が左、画像が右、あるいは複合コンテンツの複数列など、あらゆる組み合わせで機能します。
 :::
 ```
 
-**Result:**
+**結果:**
 
-~ |  |  |
+~ | | |
 ~ | :--- | :--- |
 ~ | [~img-col] | [~text-col] |
 
 :::warp img-col
-![Photo](../images/sample-square.png =240x)
+![写真](https://hacknock.github.io/lobster-wiki/images/sample-square.png =240x)
 :::
 
 :::warp text-col
-### Caption goes here
 
-Use a **silent table** (`~ | … |`) as a borderless grid and **warp blocks**
-to define column content independently from the layout declaration.
+### キャプションがここに入ります
 
-This pattern works for any combination — image left, image right,
-or multiple columns of mixed content.
+**サイレントテーブル** (`~ | ... |`) を境界線のないグリッドとして使用し、**ワープブロック** を使用して、レイアウト宣言とは独立して列の内容を定義します。
+
+このパターンは、画像が左、画像が右、あるいは複合コンテンツの複数列など、あらゆる組み合わせで機能します。
 :::
 
 ---
 
-## Image grid
+## 画像グリッド
 
-Three images in a 3-column silent table:
+3列のサイレントテーブルに3つの画像を配置します:
 
 ```markdown
-~ |             |             |             |
-~ | :---        | :---        | :---        |
-~ | [~g1]       | [~g2]       | [~g3]       |
-
-:::warp g1
-![Grid 1](../images/sample-square.png =180x)
-:::
-
-:::warp g2
-![Grid 2](../images/sample-square.png =180x)
-:::
-
-:::warp g3
-![Grid 3](../images/sample-square.png =180x)
-:::
-```
-
-**Result:**
-
-~ |  |  |  |
+~ | | | |
 ~ | :--- | :--- | :--- |
 ~ | [~g1] | [~g2] | [~g3] |
 
 :::warp g1
-![Grid 1](../images/sample-square.png =180x)
+![グリッド 1](https://hacknock.github.io/lobster-wiki/images/sample-square.png =180x)
 :::
 
 :::warp g2
-![Grid 2](../images/sample-square.png =180x)
+![グリッド 2](https://hacknock.github.io/lobster-wiki/images/sample-square.png =180x)
 :::
 
 :::warp g3
-![Grid 3](../images/sample-square.png =180x)
+![グリッド 3](https://hacknock.github.io/lobster-wiki/images/sample-square.png =180x)
+:::
+```
+
+**結果:**
+
+~ | | | |
+~ | :--- | :--- | :--- |
+~ | [~g1] | [~g2] | [~g3] |
+
+:::warp g1
+![グリッド 1](https://hacknock.github.io/lobster-wiki/images/sample-square.png =180x)
+:::
+
+:::warp g2
+![グリッド 2](https://hacknock.github.io/lobster-wiki/images/sample-square.png =180x)
+:::
+
+:::warp g3
+![グリッド 3](https://hacknock.github.io/lobster-wiki/images/sample-square.png =180x)
 :::
 
 ---
 
-## HTML output
+## HTML出力
 
-The size specifier maps to standard HTML attributes:
+サイズ指定子は標準のHTML属性にマッピングされます:
 
 ```html
 <!-- ![alt](url =400x) -->
-<img class="lbs-image" src="url" alt="alt" width="400">
+<img class="lbs-image" src="url" alt="alt" width="400" />
 
 <!-- ![alt](url =300x150) -->
-<img class="lbs-image" src="url" alt="alt" width="300" height="150">
+<img class="lbs-image" src="url" alt="alt" width="300" height="150" />
 ```
 
-Style images via the `.lbs-image` class — for example `max-width: 100%` to make them responsive.
+`.lbs-image` クラスを使用して画像をスタイルします — 例えば、レスポンシブにするために `max-width: 100%` を適用します。
