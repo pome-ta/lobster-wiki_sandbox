@@ -1,22 +1,22 @@
 # コードブロック [(Code Blocks)](https://hacknock.github.io/lobster-wiki/?page=example-code)
 
-lobster.jsは、**インラインコード**と**フェンス付きコードブロック**の両方をレンダリングし、オプションでファイル名のアノテーションとシンタックスハイライトの統合を提供します。
+lobster.js は、**インラインコード**と**フェンス付きコードブロック**の両方をレンダリングし、オプションでファイル名のアノテーションとシンタックスハイライトの統合を提供します。
 
 ## インラインコード
 
 インラインコードはバッククォートでテキストを囲みます:
 
 ```markdown
-MarkdownをDOMにレンダリングするには `loadMarkdown(src, container)` を呼び出します。
+Markdown を DOM にレンダリングするには `loadMarkdown(src, container)` を呼び出します。
 ```
 
 **結果:**
 
-MarkdownをDOMにレンダリングするには `loadMarkdown(src, container)` を呼び出します。
+Markdown を DOM にレンダリングするには `loadMarkdown(src, container)` を呼び出します。
 
 ## フェンス付きコードブロック
 
-3つのバッククォートを使用します。シンタックスハイライトのために言語識別子を追加します:
+3 つのバッククォートを使用します。シンタックスハイライトのために言語識別子を追加します:
 
 ````markdown
 ```js
@@ -76,7 +76,7 @@ import hljs from "highlight.js";
 loadMarkdown("./content.md", content).then(() => hljs.highlightAll());
 ```
 
-## HTML出力
+## HTML 出力
 
 言語とファイル名を含むフェンス付きコードブロックは次のようにレンダリングされます:
 
