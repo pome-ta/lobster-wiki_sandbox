@@ -1,4 +1,4 @@
-# ワープ / マルチカラム [(Warp / Multi-column)](https://hacknock.github.io/lobster-wiki/?page=example-warp)
+# ワープ / マルチカラム [(Warp / Multi-column)](https://hacknock.github.io/lobster-wiki/?dummy=1&page=example-warp)
 
 **ワープ (Warp)** システムを使用すると、コンテンツを一度定義し、レイアウト内のどこにでも配置できます — マルチカラムレイアウトのためのサイレントテーブルのセル内も含みます。
 

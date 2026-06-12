@@ -1,4 +1,4 @@
-# コードブロック [(Code Blocks)](https://hacknock.github.io/lobster-wiki/?page=example-code)
+# コードブロック [(Code Blocks)](https://hacknock.github.io/lobster-wiki/?dummy=1&page=example-code)
 
 lobster.js は、**インラインコード**と**フェンス付きコードブロック**の両方をレンダリングし、オプションでファイル名のアノテーションとシンタックスハイライトの統合を提供します。
 

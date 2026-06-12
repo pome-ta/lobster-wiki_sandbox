@@ -1,4 +1,4 @@
-# テーブル [(Tables)](https://hacknock.github.io/lobster-wiki/?page=example-table)
+# テーブル [(Tables)](https://hacknock.github.io/lobster-wiki/dummy=1&?page=example-table)
 
 lobster.js は、標準の Markdown テーブルに加え、**セルの結合**と、レイアウトグリッド用の**サイレントテーブル**という 2 つの強力な拡張機能をサポートしています。
 

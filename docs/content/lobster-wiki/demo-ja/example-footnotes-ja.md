@@ -1,4 +1,4 @@
-# 脚注 [(Footnotes)](https://hacknock.github.io/lobster-wiki/?page=example-footnotes)
+# 脚注 [(Footnotes)](https://hacknock.github.io/lobster-wiki/?dummy=1&page=example-footnotes)
 
 lobster.js は 2 つのスタイルの脚注をサポートしています。個別に定義する**参照脚注**と、テキスト内に直接記述する**インライン脚注**です。
 

@@ -19,6 +19,7 @@ export default async function mount(container, { modulePath }) {
   flexDiv.style.margin = '1rem';
   const cnvsDiv = document.createElement('div');
 
+
   flexDiv.appendChild(playBtn);
   flexDiv.appendChild(resetBtn);
   container.appendChild(flexDiv);

@@ -1,4 +1,4 @@
-# 画像 [(Images)](https://hacknock.github.io/lobster-wiki/?page=example-image)
+# 画像 [(Images)](https://hacknock.github.io/lobster-wiki/?dummy=1&page=example-image)
 
 lobster.js は、標準の Markdown の画像構文に加え、`width` / `height` 属性に直接マッピングされる**オプションのサイズ指定子** `=WxH` をサポートしています。CSS は必要ありません。
 

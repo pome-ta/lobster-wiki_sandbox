@@ -1,4 +1,4 @@
-# 詳細 / 折りたたみ [(Details / Collapsible)](https://hacknock.github.io/lobster-wiki/?page=example-details)
+# 詳細 / 折りたたみ [(Details / Collapsible)](https://hacknock.github.io/lobster-wiki/?dummy=1&page=example-details)
 
 `:::details` ブロックは、ネイティブな HTML の `<details>` / `<summary>` 要素としてレンダリングされます。切り替えの動作に JavaScript は必要ありません。
 
