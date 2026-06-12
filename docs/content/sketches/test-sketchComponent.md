@@ -1,7 +1,7 @@
-# p5
+# p5 (test-sketchComponent)
 
 
-:::details 便宜上
+## note
 
 p5 のsketch を並べて表示。
 ソースコードも確認できるように。
@@ -34,7 +34,7 @@ p5 のsketch を並べて表示。
 ```javascript:./components/sketchComponent.js
 ```
 
-:::
+
 
 
 ## コンポーネント01
@@ -44,6 +44,14 @@ p5 のsketch を並べて表示。
   "modulePath": "../content/sketches/mySketch01.js"
 }
 ```
+
+:::details sketch SourceCode
+
+```javascript:./content/sketches/mySketch01.js
+
+```
+
+:::
 
 
 ## コンポーネント02
@@ -60,7 +68,7 @@ p5 のsketch を並べて表示。
 
 ```
 
-:::details sketch code
+:::details sketch SourceCode
 
 ```javascript:./content/sketches/mySketch01.js
 

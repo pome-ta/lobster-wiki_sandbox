@@ -36,7 +36,7 @@
 - [top](?page=customize/top)
 	- [injection](?page=customize/injection)
 	- [fileSourceCode](?page=customize/fileSourceCode)
-- [canvases](?page=sketches/canvases)
+- [test-sketchComponent](?page=sketches/test-sketchComponent)
   :::
 
 - [memo](?page=memo)

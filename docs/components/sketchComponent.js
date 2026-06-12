@@ -4,7 +4,7 @@ const pause = 'pause';
 const loop = 'loop';
 
 const initDetailsOpen = false;
-const summaryTextContent = (bool) => `sketch: ${bool ? 'hide' : 'show'}`;
+const summaryTextContent = (bool) => `sketch: (tap to ${bool ? 'hide' : 'show'})`;
 
 const detailsControl = (isDetailsOpen, summaryElement, divElement) => {
   summaryElement.textContent = summaryTextContent(isDetailsOpen);
@@ -28,6 +28,7 @@ export default async function mount(container, { modulePath }) {
   details.open = !initDetailsOpen;
   const summary = document.createElement('summary');
   summary.textContent = summaryTextContent(initDetailsOpen);
+  summary.classList.add('lbs-summary');
   details.appendChild(summary);
 
   // --- div (details and 'buttons)
@@ -35,11 +36,15 @@ export default async function mount(container, { modulePath }) {
   flexDiv.style.display = 'flex';
   flexDiv.style.gap = '1rem';
   //flexDiv.style.justifyContent = 'space-between';
-  flexDiv.style.margin = '1rem 0';
+  flexDiv.style.margin = '0.64rem 0';
 
   // --- div (p5 canvas target)
   const cnvsDiv = document.createElement('div');
   cnvsDiv.style.display = initDetailsOpen ? '' : 'none';
+  
+  //container.style.margin = '4rem';
+  container.classList.add('lbs-details');
+
 
   // --- DOM layout (appendChild)
   [details, playBtn, resetBtn].forEach((el) => {

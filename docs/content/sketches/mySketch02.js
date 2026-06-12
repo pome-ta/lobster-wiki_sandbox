@@ -1,4 +1,4 @@
-const v = 1280;
+const v = 256;
 
 
 export const  sketch = (p) => {
