@@ -6,35 +6,46 @@ const loop = 'loop';
 const initDetailsOpen = false;
 const summaryTextContent = (bool) => `sketch: ${bool ? 'hide' : 'show'}`;
 
+const detailsControl = (isDetailsOpen, summaryElement, divElement) => {
+  summaryElement.textContent = summaryTextContent(isDetailsOpen);
+  divElement.style.display = isDetailsOpen ? '' : 'none';
+};
+
 export default async function mount(container, { modulePath }) {
   const { sketch } = await import(modulePath);
   let p5Instance;
   let isLoop = false;
 
+  // --- buttons
   const playBtn = document.createElement('button');
   playBtn.textContent = loop;
   const resetBtn = document.createElement('button');
   resetBtn.textContent = 'reset';
 
+  // --- details
+  const details = document.createElement('details');
+  details.style.flexGrow = '1';
+  details.open = !initDetailsOpen;
   const summary = document.createElement('summary');
   summary.textContent = summaryTextContent(initDetailsOpen);
-
-  const details = document.createElement('details');
-  details.open = !initDetailsOpen;
   details.appendChild(summary);
 
+  // --- div (details and 'buttons)
   const flexDiv = document.createElement('div');
   flexDiv.style.display = 'flex';
-  flexDiv.style.justifyContent = 'space-between';
-  flexDiv.style.margin = '1rem';
+  flexDiv.style.gap = '1rem';
+  //flexDiv.style.justifyContent = 'space-between';
+  flexDiv.style.margin = '1rem 0';
 
-  [playBtn, details, resetBtn].forEach((el) => {
+  // --- div (p5 canvas target)
+  const cnvsDiv = document.createElement('div');
+  cnvsDiv.style.display = initDetailsOpen ? '' : 'none';
+
+  // --- DOM layout (appendChild)
+  [details, playBtn, resetBtn].forEach((el) => {
     flexDiv.appendChild(el);
   });
   container.appendChild(flexDiv);
-
-  const cnvsDiv = document.createElement('div');
-  cnvsDiv.style.display = initDetailsOpen ? '' : 'none';
   container.appendChild(cnvsDiv);
 
   function initSketch() {
@@ -55,11 +66,6 @@ export default async function mount(container, { modulePath }) {
   }
 
   initSketch();
-
-  const detailsControl = (isDetailsOpen, summaryElement, divElement) => {
-    summaryElement.textContent = summaryTextContent(isDetailsOpen);
-    divElement.style.display = isDetailsOpen ? '' : 'none';
-  };
 
   details.addEventListener('toggle', (e) => {
     detailsControl(e.target.open, summary, cnvsDiv);
