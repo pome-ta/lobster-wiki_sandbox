@@ -34,22 +34,19 @@ export default async function mount(container, { modulePath }) {
   // --- div (details and 'buttons)
   const flexDiv = document.createElement('div');
   flexDiv.style.display = 'flex';
-  flexDiv.style.gap = '1rem';
+  flexDiv.style.gap = '0.64rem';
   //flexDiv.style.justifyContent = 'space-between';
   flexDiv.style.margin = '0.64rem 0';
 
   // --- div (p5 canvas target)
   const cnvsDiv = document.createElement('div');
   cnvsDiv.style.display = initDetailsOpen ? '' : 'none';
-  
+
   //container.style.margin = '4rem';
   container.classList.add('lbs-details');
 
-
   // --- DOM layout (appendChild)
-  [details, playBtn, resetBtn].forEach((el) => {
-    flexDiv.appendChild(el);
-  });
+  [details, playBtn, resetBtn].forEach((el) => flexDiv.appendChild(el));
   container.appendChild(flexDiv);
   container.appendChild(cnvsDiv);
 
