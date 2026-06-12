@@ -3,6 +3,9 @@ import p5 from 'p5';
 const pause = 'pause';
 const loop = 'loop';
 
+const initDetailsOpen = false;
+const summaryTextContent = (bool) => `sketch: ${bool ? 'hide' : 'show'}`;
+
 export default async function mount(container, { modulePath }) {
   const { sketch } = await import(modulePath);
   let p5Instance;
@@ -13,17 +16,25 @@ export default async function mount(container, { modulePath }) {
   const resetBtn = document.createElement('button');
   resetBtn.textContent = 'reset';
 
+  const summary = document.createElement('summary');
+  summary.textContent = summaryTextContent(initDetailsOpen);
+
+  const details = document.createElement('details');
+  details.open = !initDetailsOpen;
+  details.appendChild(summary);
+
   const flexDiv = document.createElement('div');
   flexDiv.style.display = 'flex';
   flexDiv.style.justifyContent = 'space-between';
   flexDiv.style.margin = '1rem';
-  const cnvsDiv = document.createElement('div');
 
-
-  flexDiv.appendChild(playBtn);
-  flexDiv.appendChild(resetBtn);
+  [playBtn, details, resetBtn].forEach((el) => {
+    flexDiv.appendChild(el);
+  });
   container.appendChild(flexDiv);
 
+  const cnvsDiv = document.createElement('div');
+  cnvsDiv.style.display = initDetailsOpen ? '' : 'none';
   container.appendChild(cnvsDiv);
 
   function initSketch() {
@@ -44,6 +55,15 @@ export default async function mount(container, { modulePath }) {
   }
 
   initSketch();
+
+  const detailsControl = (isDetailsOpen, summaryElement, divElement) => {
+    summaryElement.textContent = summaryTextContent(isDetailsOpen);
+    divElement.style.display = isDetailsOpen ? '' : 'none';
+  };
+
+  details.addEventListener('toggle', (e) => {
+    detailsControl(e.target.open, summary, cnvsDiv);
+  });
 
   playBtn.addEventListener('click', () => {
     isLoop ? p5Instance.noLoop() : p5Instance.loop();

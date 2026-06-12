@@ -1,6 +1,8 @@
 # p5
 
 
+:::details 便宜上
+
 p5 のsketch を並べて表示。
 ソースコードも確認できるように。
 
@@ -31,6 +33,9 @@ p5 のsketch を並べて表示。
 
 ```javascript:./components/sketchComponent.js
 ```
+
+:::
+
 
 ## コンポーネント01
 
