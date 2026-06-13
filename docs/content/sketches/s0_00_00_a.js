@@ -1,6 +1,7 @@
 export const sketch = (p) => {
   p.setup = () => {
-    p.createCanvas(2000, 2000, p.WEBGL);
+    //p.createCanvas(2000, 2000, p.WEBGL);
+    p.createCanvas(720, 720, p.WEBGL);
     p.background(150);
     p.stroke(0, 50);
     p.fill(255, 200);
