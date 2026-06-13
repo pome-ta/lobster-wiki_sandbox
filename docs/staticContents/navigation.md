@@ -1,4 +1,5 @@
 - [readme](?page=readme)
+- [sketchbook](?page=sketches/sketchbook)
 
 :::details 本家-ja | Documents
 
