@@ -8,11 +8,10 @@ export const sketch = (p) => {
     const xstart = p.random(10);
     let ynoise = p.random(10);
 
-    //p.translate(w/2, h/2, 0);
-    for (let y = -(h / 8); y < h / 8; y += 3) {
+    for (let y = -(p.height / 8); y < p.height / 8; y += 3) {
       ynoise += 0.02;
       let xnoise = xstart;
-      for (let x = -(w / 8); x < w / 8; x += 3) {
+      for (let x = -(p.width / 8); x < p.width / 8; x += 3) {
         xnoise += 0.02;
         drawPoint(x, y, p.noise(xnoise, ynoise));
       }
