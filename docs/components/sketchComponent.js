@@ -4,7 +4,8 @@ const pause = 'pause';
 const loop = 'loop';
 
 const initDetailsOpen = false;
-const summaryTextContent = (bool) => `sketch: (tap to ${bool ? 'hide' : 'show'})`;
+const summaryTextContent = (bool) =>
+  `sketch: (tap to ${bool ? 'hide' : 'show'})`;
 
 const detailsControl = (isDetailsOpen, summaryElement, divElement) => {
   summaryElement.textContent = summaryTextContent(isDetailsOpen);
