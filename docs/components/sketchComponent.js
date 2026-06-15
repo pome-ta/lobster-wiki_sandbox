@@ -11,6 +11,8 @@ const detailsControl = (isDetailsOpen, summaryElement, divElement) => {
   divElement.style.display = isDetailsOpen ? '' : 'none';
 };
 
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
 export default async function mount(container, { modulePath }) {
   const { sketch } = await import(modulePath);
 
@@ -51,15 +53,26 @@ export default async function mount(container, { modulePath }) {
   container.appendChild(flexDiv);
   container.appendChild(cnvsDiv);
 
-  function initSketch() {
+  let timeOut = 0;
 
-    
-    if (p5Instance) {
-      const p5Canvas = p5Instance.canvas;
-      console.log(p5Canvas)
+  async function initSketch() {
+    if (p5Instance && p5Instance.canvas) {
+      p5Instance.canvas.width = 1;
+      p5Instance.canvas.height = 1;
+      // 2DかWEBGLかに関わらず、コンテキストの取得を試みる
+      const gl = p5Instance.canvas.getContext('webgl') || p5Instance.canvas.getContext('webgl2');
+
+      if (gl) {
+        // WEBGL_lose_context 拡張機能を使って明示的に破棄
+        const ext = gl.getExtension('WEBGL_lose_context');
+        ext ? ext.loseContext() : null;
+        timeOut = 300;
+      }
     }
-    
+
+    await sleep(timeOut);
     p5Instance?.remove();
+    p5Instance = null;
 
     const observer = new MutationObserver((mutations, obs) => {
       if (p5Instance && p5Instance.canvas) {
@@ -87,7 +100,14 @@ export default async function mount(container, { modulePath }) {
     isLoop = !isLoop;
   });
 
-  resetBtn.addEventListener('click', () => {
-    initSketch();
+  resetBtn.addEventListener('click', async () => {
+    const textContent = resetBtn.textContent;
+    resetBtn.textContent = '...';
+    resetBtn.disabled = true;
+
+    await initSketch();
+
+    resetBtn.disabled = false;
+    resetBtn.textContent = textContent;
   });
 }
