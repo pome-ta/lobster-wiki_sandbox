@@ -61,15 +61,11 @@ export default async function mount(container, { modulePath }) {
       p5Instance.canvas.height = 1;
       // 2DかWEBGLかに関わらず、コンテキストの取得を試みる
       const gl = p5Instance.canvas.getContext('webgl') || p5Instance.canvas.getContext('webgl2');
+      // WEBGL_lose_context 拡張機能を使って明示的に破棄
+      const ext = gl?.getExtension('WEBGL_lose_context');
 
-      if (gl) {
-        // WEBGL_lose_context 拡張機能を使って明示的に破棄
-        const ext = gl.getExtension('WEBGL_lose_context');
-        ext ? ext.loseContext() : null;
-        currentTimeout = 1000;
-      } else {
-        currentTimeout = 50;
-      }
+      ext == null ? null : ext.loseContext();
+      currentTimeout = ext == null ? 50 : 1000;
     }
 
     p5Instance?.remove();
@@ -105,7 +101,7 @@ export default async function mount(container, { modulePath }) {
 
   resetBtn.addEventListener('click', async () => {
     const textContent = resetBtn.textContent;
-    resetBtn.textContent = '...';
+    resetBtn.textContent = '... ...';
     resetBtn.disabled = true;
 
     await initSketch();
