@@ -22,6 +22,8 @@ export const sketch = (p) => {
     }
   };
 
+  p.draw = () => {};
+
   const drawPoint = (x, y, noiseFactor) => {
     p.push();
 

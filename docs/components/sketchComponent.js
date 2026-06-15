@@ -4,8 +4,7 @@ const pause = 'pause';
 const loop = 'loop';
 
 const initDetailsOpen = false;
-const summaryTextContent = (bool) =>
-  `sketch: (tap to ${bool ? 'hide' : 'show'})`;
+const summaryTextContent = (bool) => `sketch: (tap to ${bool ? 'hide' : 'show'})`;
 
 const detailsControl = (isDetailsOpen, summaryElement, divElement) => {
   summaryElement.textContent = summaryTextContent(isDetailsOpen);
@@ -14,7 +13,8 @@ const detailsControl = (isDetailsOpen, summaryElement, divElement) => {
 
 export default async function mount(container, { modulePath }) {
   const { sketch } = await import(modulePath);
-  let p5Instance;
+
+  let p5Instance = null;
   let isLoop = false;
 
   // --- buttons
@@ -52,6 +52,13 @@ export default async function mount(container, { modulePath }) {
   container.appendChild(cnvsDiv);
 
   function initSketch() {
+
+    
+    if (p5Instance) {
+      const p5Canvas = p5Instance.canvas;
+      console.log(p5Canvas)
+    }
+    
     p5Instance?.remove();
 
     const observer = new MutationObserver((mutations, obs) => {
