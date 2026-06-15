@@ -53,9 +53,9 @@ export default async function mount(container, { modulePath }) {
   container.appendChild(flexDiv);
   container.appendChild(cnvsDiv);
 
-  let timeOut = 0;
-
   async function initSketch() {
+    let currentTimeout = 0;
+
     if (p5Instance && p5Instance.canvas) {
       p5Instance.canvas.width = 1;
       p5Instance.canvas.height = 1;
@@ -66,13 +66,16 @@ export default async function mount(container, { modulePath }) {
         // WEBGL_lose_context 拡張機能を使って明示的に破棄
         const ext = gl.getExtension('WEBGL_lose_context');
         ext ? ext.loseContext() : null;
-        timeOut = 300;
+        currentTimeout = 1000;
+      } else {
+        currentTimeout = 50;
       }
     }
 
-    await sleep(timeOut);
     p5Instance?.remove();
     p5Instance = null;
+
+    currentTimeout ? await sleep(currentTimeout) : null;
 
     const observer = new MutationObserver((mutations, obs) => {
       if (p5Instance && p5Instance.canvas) {
