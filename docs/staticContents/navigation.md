@@ -1,5 +1,5 @@
 - [readme](?page=readme)
-- [sketchbook](?page=sketches/sketchbook)
+
 
 :::details 本家-ja | Documents
 
@@ -21,6 +21,7 @@
   - [Code Blocks](?page=lobster-wiki/demo-ja/example-code-ja)
   - [Details / Collapsible](?page=lobster-wiki/demo-ja/example-details-ja)
 - [README-ja](?page=lobster-wiki/README-ja)
+- [sketchbook](?page=sketches/sketchbook)
   :::
 
 :::
@@ -35,6 +36,15 @@
 :::details カスタマイズ（独自調査）
 
 - [top](?page=customize/top)
+	- [injection](?page=customize/injection)
+	- [fileSourceCode](?page=customize/fileSourceCode)
+- [test-sketchComponent](?page=sketches/test-sketchComponent)
+  :::
+
+
+:::details test-bnnGenArtPE
+
+- [topGenArt](?page=test-bnnGenArtPE/topGenArt)
 	- [injection](?page=customize/injection)
 	- [fileSourceCode](?page=customize/fileSourceCode)
 - [test-sketchComponent](?page=sketches/test-sketchComponent)

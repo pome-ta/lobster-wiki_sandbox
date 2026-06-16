@@ -3,6 +3,6 @@
   "navigation": "./staticContents/navigation.md",
   "header": "./staticContents/header.md",
   "footer": "./staticContents/footer.md",
-  "defaultPage": "sketches/sketchbook",
+  "defaultPage": "readme",
   "tableOfContents": true
 }

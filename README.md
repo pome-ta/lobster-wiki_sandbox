@@ -7,31 +7,37 @@
 
 ## 参照先
 
-### リポジトリ
+### lobster.js
 
-[Hacknock/lobster-wiki | GitHub](https://github.com/Hacknock/lobster-wiki)
-
-> lobster-wiki turns a folder of Markdown files into a wiki-style site — sidebar navigation, page routing, auto-generated table of contents — with almost no code beyond the Markdown itself.
+#### リポジトリ
 
 [Hacknock/lobsterjs | GitHub](https://github.com/Hacknock/lobsterjs)
 
 > A tool to convert Markdown into simple and rich web pages.
 
 
-### ドキュメント
 
-#### lobster.js
+#### ドキュメント
 
-[lobster.js](https://hacknock.github.io/lobsterjs/)
-
-[そのMarkdown、Webサイトに進化します。](https://zenn.dev/kyome/articles/b45c9c7d6eaa76)
-
-#### lobster-wiki
-
-[Introduction - lobster.js](https://hacknock.github.io/lobster-wiki/)
+- [lobster.js](https://hacknock.github.io/lobsterjs/)
+- [そのMarkdown、Webサイトに進化します。](https://zenn.dev/kyome/articles/b45c9c7d6eaa76)
 
 
-[MarkdownだけでWikiを作ろう](https://zenn.dev/kyome/articles/9937ce78b948bc)
+### lobster-wiki
+
+#### リポジトリ
+
+[Hacknock/lobster-wiki | GitHub](https://github.com/Hacknock/lobster-wiki)
+
+> lobster-wiki turns a folder of Markdown files into a wiki-style site — sidebar navigation, page routing, auto-generated table of contents — with almost no code beyond the Markdown itself.
+
+
+
+
+#### ドキュメント
+
+- [Introduction - lobster.js](https://hacknock.github.io/lobster-wiki/)
+- [MarkdownだけでWikiを作ろう](https://zenn.dev/kyome/articles/9937ce78b948bc)
 
 
 
