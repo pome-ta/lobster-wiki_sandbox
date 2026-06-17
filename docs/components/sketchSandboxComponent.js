@@ -1,9 +1,7 @@
-import p5 from 'p5';
-
 const pause = 'pause';
 const loop = 'loop';
-
 const initDetailsOpen = false;
+
 const summaryTextContent = (bool) => `sketch: (tap to ${bool ? 'hide' : 'show'})`;
 
 const detailsControl = (isDetailsOpen, summaryElement, divElement) => {
@@ -13,137 +11,126 @@ const detailsControl = (isDetailsOpen, summaryElement, divElement) => {
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-async function getModuleSource(filePath) {
-  const fetchFilePath = async (path) => {
-    const res = await fetch(path);
-    return await res.text();
-  };
-  return await fetchFilePath(filePath);
+async function fetchSourceCode(path) {
+  const res = await fetch(path);
+  if (!res.ok) throw new Error(`Failed to fetch: ${path}`);
+  return await res.text();
 }
 
 function createSandbox() {
   const sb = document.createElement('iframe');
 
-  const mapAttrs = {
+  const attrs = {
     id: 'sandbox',
     sandbox: 'allow-same-origin allow-scripts',
     allow:
-      'accelerometer; ambient-light-sensor; autoplay; bluetooth; camera; encrypted-media; geolocation; gyroscope;  hid; microphone; magnetometer; midi; payment; usb; serial; vr; xr-spatial-tracking',
+      'accelerometer; ambient-light-sensor; autoplay; bluetooth; camera; encrypted-media; geolocation; gyroscope; hid; microphone; magnetometer; midi; payment; usb; serial; vr; xr-spatial-tracking',
     loading: 'lazy',
     src: './components/sandbox.html',
   };
-  
-  Object.entries(mapAttrs).forEach(([key, value]) => sb.setAttribute(key, value));
-  
-  const mapStyles = {
-    width: '100%',
-    height: 'auto',
-    'background-color': 'darkgray',
-  };
-  
-  
-  
-  Object.entries(mapStyles).forEach(([key, value]) => sb.style.setProperty(key, value));
+  Object.entries(attrs).forEach(([key, value]) => sb.setAttribute(key, value));
 
+  Object.assign(sb.style, {
+    maxWidth: '100%',
+    border: 'none',
+    //backgroundColor: 'maroon',
+  });
 
-  
   return sb;
 }
 
 export default async function mount(container, { modulePath, playBtnDisabled = false, resetBtnDisabled = false }) {
-  //const { sketch } = await import(modulePath);
-
-  const sourceCode = await getModuleSource(modulePath);
-  //console.log(code)
-
-  const sandbox = createSandbox();
-
-  let p5Instance = null;
+  const sourceCode = await fetchSourceCode(modulePath);
   let isLoop = false;
 
-  // --- buttons
+  // --- UI Elements ---
   const playBtn = document.createElement('button');
   playBtn.textContent = loop;
   playBtn.disabled = playBtnDisabled;
+
   const resetBtn = document.createElement('button');
   resetBtn.textContent = 'reset';
   resetBtn.disabled = resetBtnDisabled;
 
-  // --- details
   const details = document.createElement('details');
   details.style.flexGrow = '1';
   details.open = !initDetailsOpen;
+
   const summary = document.createElement('summary');
   summary.textContent = summaryTextContent(initDetailsOpen);
   summary.classList.add('lbs-summary');
   details.appendChild(summary);
 
-  // --- div (details and 'buttons)
   const flexDiv = document.createElement('div');
-  flexDiv.style.display = 'flex';
-  flexDiv.style.gap = '0.64rem';
-  //flexDiv.style.justifyContent = 'space-between';
-  flexDiv.style.margin = '0.64rem 0';
+  Object.assign(flexDiv.style, {
+    display: 'flex',
+    gap: '0.64rem',
+    margin: '0.64rem 0',
+  });
 
-  // --- div (p5 canvas target)
-  const cnvsDiv = document.createElement('div');
-  cnvsDiv.style.display = initDetailsOpen ? '' : 'none';
-
-  //container.style.margin = '4rem';
   container.classList.add('lbs-details');
-
-  // --- DOM layout (appendChild)
   [details, playBtn, resetBtn].forEach((el) => flexDiv.appendChild(el));
   container.appendChild(flexDiv);
-  //container.appendChild(cnvsDiv);
-  container.appendChild(sandbox);
-  
-  
 
-  async function initSketch() {
-    let currentTimeout = 0;
+  // --- iframe State ---
+  let sketchSandbox = null;
+  let currentMessageHandler = null;
 
-    if (p5Instance && p5Instance.canvas) {
-      p5Instance.canvas.width = 1;
-      p5Instance.canvas.height = 1;
-      // 2DかWEBGLかに関わらず、コンテキストの取得を試みる
-      const gl = p5Instance.canvas.getContext('webgl') || p5Instance.canvas.getContext('webgl2');
-      // WEBGL_lose_context 拡張機能を使って明示的に破棄
-      const ext = gl?.getExtension('WEBGL_lose_context');
-
-      ext == null ? null : ext.loseContext();
-      currentTimeout = ext == null ? 50 : 1000;
+  async function initSketchSandbox() {
+    if (sketchSandbox) {
+      sketchSandbox.remove();
+      sketchSandbox = null;
+      if (currentMessageHandler) {
+        window.removeEventListener('message', currentMessageHandler);
+        currentMessageHandler = null;
+      }
+      await sleep(100);
     }
 
-    p5Instance?.remove();
-    p5Instance = null;
+    sketchSandbox = createSandbox();
+    sketchSandbox.style.display = details.open ? '' : 'none';
+    
+    
 
-    currentTimeout ? await sleep(currentTimeout) : null;
+    currentMessageHandler = (e) => {
+      if (e.source !== sketchSandbox.contentWindow) return;
+      const data = e.data;
 
-    const observer = new MutationObserver((mutations, obs) => {
-      if (p5Instance && p5Instance.canvas) {
-        p5Instance.canvas.style.maxWidth = '100%';
-        p5Instance.canvas.style.height = 'auto';
-        obs.disconnect(); // スタイルを当てたら棄却
+      if (data?.type === 'resize') {
+        sketchSandbox.style.width = `${data.width}px`;
+        sketchSandbox.style.aspectRatio = `${data.width} / ${data.height}`;
       }
-    });
-    observer.observe(cnvsDiv, { childList: true });
+    };
+    window.addEventListener('message', currentMessageHandler);
+    
 
-    p5Instance = new p5(sketch, cnvsDiv);
-    isLoop ? null : p5Instance.noLoop();
+    const loadPromise = new Promise((resolve) => {
+      sketchSandbox.addEventListener(
+        'load',
+        () => {
+          sketchSandbox.contentWindow.postMessage({ type: 'loadSketch', code: sourceCode }, '*');
+          resolve();
+        },
+        { once: true },
+      );
+    });
+
+    container.appendChild(sketchSandbox);
     playBtn.textContent = isLoop ? pause : loop;
+    await loadPromise;
   }
 
-  //initSketch();
+  initSketchSandbox();
 
+  // --- Event Listeners ---
   details.addEventListener('toggle', (e) => {
-    detailsControl(e.target.open, summary, cnvsDiv);
+    detailsControl(e.target.open, summary, sketchSandbox);
   });
 
   playBtn.addEventListener('click', () => {
-    isLoop ? p5Instance.noLoop() : p5Instance.loop();
-    playBtn.textContent = isLoop ? loop : pause;
     isLoop = !isLoop;
+    sketchSandbox?.contentWindow?.postMessage({ type: 'setLoop', isLoop }, '*');
+    playBtn.textContent = isLoop ? pause : loop;
   });
 
   resetBtn.addEventListener('click', async () => {
@@ -151,7 +138,7 @@ export default async function mount(container, { modulePath, playBtnDisabled = f
     resetBtn.textContent = '... ...';
     resetBtn.disabled = true;
 
-    await initSketch();
+    await initSketchSandbox();
 
     resetBtn.disabled = false;
     resetBtn.textContent = textContent;
