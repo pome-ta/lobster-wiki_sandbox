@@ -13,8 +13,50 @@ const detailsControl = (isDetailsOpen, summaryElement, divElement) => {
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
+async function getModuleSource(filePath) {
+  const fetchFilePath = async (path) => {
+    const res = await fetch(path);
+    return await res.text();
+  };
+  return await fetchFilePath(filePath);
+}
+
+function createSandbox() {
+  const sb = document.createElement('iframe');
+
+  const mapAttrs = {
+    id: 'sandbox',
+    sandbox: 'allow-same-origin allow-scripts',
+    allow:
+      'accelerometer; ambient-light-sensor; autoplay; bluetooth; camera; encrypted-media; geolocation; gyroscope;  hid; microphone; magnetometer; midi; payment; usb; serial; vr; xr-spatial-tracking',
+    loading: 'lazy',
+    src: './components/sandbox.html',
+  };
+  
+  Object.entries(mapAttrs).forEach(([key, value]) => sb.setAttribute(key, value));
+  
+  const mapStyles = {
+    width: '100%',
+    height: 'auto',
+    'background-color': 'darkgray',
+  };
+  
+  
+  
+  Object.entries(mapStyles).forEach(([key, value]) => sb.style.setProperty(key, value));
+
+
+  
+  return sb;
+}
+
 export default async function mount(container, { modulePath, playBtnDisabled = false, resetBtnDisabled = false }) {
-  const { sketch } = await import(modulePath);
+  //const { sketch } = await import(modulePath);
+
+  const sourceCode = await getModuleSource(modulePath);
+  //console.log(code)
+
+  const sandbox = createSandbox();
 
   let p5Instance = null;
   let isLoop = false;
@@ -53,7 +95,10 @@ export default async function mount(container, { modulePath, playBtnDisabled = f
   // --- DOM layout (appendChild)
   [details, playBtn, resetBtn].forEach((el) => flexDiv.appendChild(el));
   container.appendChild(flexDiv);
-  container.appendChild(cnvsDiv);
+  //container.appendChild(cnvsDiv);
+  container.appendChild(sandbox);
+  
+  
 
   async function initSketch() {
     let currentTimeout = 0;
@@ -89,7 +134,7 @@ export default async function mount(container, { modulePath, playBtnDisabled = f
     playBtn.textContent = isLoop ? pause : loop;
   }
 
-  initSketch();
+  //initSketch();
 
   details.addEventListener('toggle', (e) => {
     detailsControl(e.target.open, summary, cnvsDiv);
