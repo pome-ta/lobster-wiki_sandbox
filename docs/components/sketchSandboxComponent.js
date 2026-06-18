@@ -30,10 +30,20 @@ function createSandbox() {
   };
   Object.entries(attrs).forEach(([key, value]) => sb.setAttribute(key, value));
 
+  /*
   Object.assign(sb.style, {
     maxWidth: '100%',
     border: 'none',
     //backgroundColor: 'maroon',
+  });
+  */
+  Object.assign(sb.style, {
+    position: 'absolute',
+    top: '0',
+    left: '0',
+    width: '100%',
+    height: '100%',
+    border: 'none',
   });
 
   return sb;
@@ -73,12 +83,14 @@ export default async function mount(container, { modulePath, playBtnDisabled = f
   container.appendChild(flexDiv);
 
   // --- iframe State ---
+  let sandboxWrapper = null;
   let sketchSandbox = null;
   let currentMessageHandler = null;
 
   async function initSketchSandbox() {
     if (sketchSandbox) {
       sketchSandbox.remove();
+      sandboxWrapper = null;
       sketchSandbox = null;
       if (currentMessageHandler) {
         window.removeEventListener('message', currentMessageHandler);
@@ -86,6 +98,8 @@ export default async function mount(container, { modulePath, playBtnDisabled = f
       }
       await sleep(100);
     }
+    
+    /*
 
     sketchSandbox = createSandbox();
     sketchSandbox.style.display = details.open ? '' : 'none';
@@ -116,6 +130,48 @@ export default async function mount(container, { modulePath, playBtnDisabled = f
     });
 
     container.appendChild(sketchSandbox);
+    */
+    
+        // 🌟 1. まず外箱(Wrapper)を作る
+    sandboxWrapper = document.createElement('div');
+    Object.assign(sandboxWrapper.style, {
+      position: 'relative', // iframeの絶対配置の基準になる
+      maxWidth: '100%',
+      backgroundColor: 'maroon',
+      display: details.open ? '' : 'none',
+    });
+
+    // 🌟 2. iframeを作って外箱に入れる
+    sketchSandbox = createSandbox();
+    sandboxWrapper.appendChild(sketchSandbox);
+
+    // 🌟 3. 通信ハンドラ(サイズ変更は "外箱" に対して行う!)
+    currentMessageHandler = (e) => {
+      if (e.source !== sketchSandbox.contentWindow) return;
+      const data = e.data;
+
+      if (data?.type === 'resize') {
+        // iframeではなく、外側のDIVを変形させる
+        sandboxWrapper.style.width = `${data.width}px`;
+        sandboxWrapper.style.aspectRatio = `${data.width} / ${data.height}`;
+      }
+    };
+    window.addEventListener('message', currentMessageHandler);
+
+    const loadPromise = new Promise((resolve) => {
+      sketchSandbox.addEventListener('load', () => {
+        sketchSandbox.contentWindow.postMessage({ type: 'loadSketch', code: sourceCode }, '*');
+        resolve();
+      }, { once: true });
+    });
+
+    // 🌟 container には iframe ではなく Wrapper を追加する
+    container.appendChild(sandboxWrapper);
+    playBtn.textContent = isLoop ? pause : loop;
+    await loadPromise;
+  }
+
+  initSketchSandbox();
     playBtn.textContent = isLoop ? pause : loop;
     await loadPromise;
   }
