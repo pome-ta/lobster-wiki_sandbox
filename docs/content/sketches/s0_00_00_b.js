@@ -1,4 +1,4 @@
-/*
+
 const sketch = (p) => {
   p.setup = () => {
     p.createCanvas(2000, 2000, p.WEBGL);
@@ -38,7 +38,9 @@ const sketch = (p) => {
 };
 
 new p5(sketch);
-*/
+
+
+/*
 const title = '24 行のコードによるジェネラティブ・システム';
 
 const sketch = (p) => {
@@ -126,4 +128,4 @@ const sketch = (p) => {
   // --- start
   new p5(sketch);
 
-
+*/
