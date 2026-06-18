@@ -219,6 +219,24 @@ document.addEventListener("click", (e) => {
 
 ## `p5.js` の実行と描画
 
+- sketch の表示・非表示
+- ループ（`draw` 処理）のon/off（`.noLoo()` , `.loop()`）
+- 再描画（リセットし再読み込み）
+- sketch 結果描画
+
+で構成。
+
+
+`inject:` で、js を実行させる。
+実行指示時に3つを引数として渡せる
+
+1. `sketchPath` : sketch code のファイルパス
+  - root からのディレクトリで、パスを指定
+  - instance mode 、global mode どちらでも実行可能
+2. 
+
+
+
 ### sandbox 化
 
 `iframe` に sketch の描画を隔離、各自の実行インスタンスで処理。描画生成時は`noLoop` で、`draw` ループを止めている。

@@ -2,7 +2,7 @@
 
 ```inject:./components/sketchSandboxComponent.js
 {
-  "modulePath": "./content/sketches/s0_00_00_b.js",
+  "sketchPath": "./content/sketches/s0_00_00_b.js",
   "playBtnDisabled": true,
   "resetBtnDisabled": false
 }
@@ -19,7 +19,7 @@
 
 ```inject:./components/sketchSandboxComponent.js
 {
-  "modulePath": "./content/sketches/mySketch01_b.js",
+  "sketchPath": "./content/sketches/mySketch01_b.js",
   "playBtnDisabled": false,
   "resetBtnDisabled": false
 }
@@ -36,7 +36,7 @@
 
 ```inject:./components/sketchSandboxComponent.js
 {
-  "modulePath": "./content/sketches/mySketch02_b.js"
+  "sketchPath": "./content/sketches/mySketch02_b.js"
 }
 ```
 

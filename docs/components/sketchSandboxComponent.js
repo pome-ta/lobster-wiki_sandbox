@@ -53,8 +53,8 @@ function createSandbox() {
   return sb;
 }
 
-export default async function mount(container, { modulePath, playBtnDisabled = false, resetBtnDisabled = false }) {
-  const sourceCode = await fetchSourceCode(modulePath);
+export default async function mount(container, { sketchPath, playBtnDisabled = false, resetBtnDisabled = false }) {
+  const sourceCode = await fetchSourceCode(sketchPath);
   let isLoop = false;
 
   // --- UI Elements ---
