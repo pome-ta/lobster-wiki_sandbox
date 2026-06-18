@@ -22,14 +22,14 @@ async function fetchSourceCode(path) {
 function createSandbox() {
   const sb = document.createElement('iframe');
 
-  const attrs = {
-    id: 'sandbox',
-    sandbox: 'allow-same-origin allow-scripts',
-    allow:
-      'accelerometer; ambient-light-sensor; autoplay; bluetooth; camera; encrypted-media; geolocation; gyroscope; hid; microphone; magnetometer; midi; payment; usb; serial; vr; xr-spatial-tracking',
-    loading: 'lazy',
-    src: './components/sandbox.html',
-  };
+  // const attrs = {
+  //   id: 'sandbox',
+  //   sandbox: 'allow-same-origin allow-scripts',
+  //   allow:
+  //     'accelerometer; ambient-light-sensor; autoplay; bluetooth; camera; encrypted-media; geolocation; gyroscope; hid; microphone; magnetometer; midi; payment; usb; serial; vr; xr-spatial-tracking',
+  //   loading: 'lazy',
+  //   src: './components/sandbox.html',
+  // };
   //Object.entries(attrs).forEach(([key, value]) => sb.setAttribute(key, value));
 
   Object.entries({
@@ -109,7 +109,7 @@ export default async function mount(container, { modulePath, playBtnDisabled = f
       }
       sandboxWrapper.style.width = '';
       sandboxWrapper.style.aspectRatio = '';
-      await sleep(1);
+      await sleep(10);
     }
 
     sketchSandbox = createSandbox();
@@ -141,6 +141,8 @@ export default async function mount(container, { modulePath, playBtnDisabled = f
 
     playBtn.textContent = isLoop ? pause : loop;
     await loadPromise;
+    
+    sketchSandbox?.contentWindow?.postMessage({ type: 'setLoop', isLoop }, '*');
   }
 
   initSketchSandbox();

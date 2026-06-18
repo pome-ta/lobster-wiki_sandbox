@@ -1,8 +1,62 @@
 import * as Babel from '@babel/standalone';
 
-const MAX_LOOP_DURATION_MS = 200;
-// 無限ループ保護用 Babel プラグイン (AST解析と書き換え)
-// ----------------------------------------------------
+const MAX_LOOP_DURATION_MS = 100;
+
+window.__triggerLoopError = () => {
+  console.warn('[sandbox.js] Infinite loop prevented!');
+  document.getElementById('loop-error-overlay')?.remove();
+
+  const warningDiv = document.createElement('div');
+  warningDiv.id = 'loop-error-overlay';
+  Object.assign(warningDiv.style, {
+    position: 'fixed',
+    top: '0',
+    left: '0',
+    width: '100%',
+    color: 'white',
+    padding: '0.8rem 1.2rem',
+    'background-color': 'rgba(220, 53, 69, 0.4)',
+    'font-size': '0.8rem',
+    'box-sizing': 'border-box',
+    'z-index': '9999',
+    display: 'flex',
+    'justify-content': 'space-between',
+    'align-items': 'clearInterval',
+  });
+
+  // warningDiv.style.cssText = `
+  //   position: fixed;
+  //   top: 0;
+  //   left: 0;
+  //   width: 100%;
+  //   background-color: rgba(220, 53, 69, 0.64);
+  //   color: white;
+  //   font-family: sans-serif;
+  //   font-size: 14px;
+  //   padding: 12px 20px;
+  //   box-sizing: border-box;
+  //   z-index: 9999;
+  //   display: flex;
+  //   justify-content: space-between;
+  //   align-items: center;
+  //   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  // `;
+
+  warningDiv.innerHTML = `
+  <span><strong>⚠️ 警告:</strong> 処理が重すぎるか、無限ループの可能性があるため実行を停止</span>
+    <button id="close-loop-error" style="background: none; border: none; color: white; cursor: pointer; font-size: 1rem; padding: 0;"> ✕ </button>
+  `;
+
+  document.body.appendChild(warningDiv);
+
+  document.getElementById('close-loop-error').addEventListener('click', () => {
+    warningDiv.remove();
+  });
+
+  throw new Error('Error: Infinite loop detected!');
+};
+
+// ---  無限ループ保護用 Babel プラグイン (AST解析と書き換え) ---
 const loopProtectPlugin = function ({ types: t }) {
   return {
     visitor: {
@@ -18,13 +72,30 @@ const loopProtectPlugin = function ({ types: t }) {
         path.insertBefore(t.variableDeclaration('const', [t.variableDeclarator(startVar, dateNowExpr)]));
 
         // 指定時間を超えたらエラーを投げる
+        // const checkStatement = t.ifStatement(
+        //   t.binaryExpression(
+        //     '>',
+        //     t.binaryExpression('-', dateNowExpr, startVar),
+        //     t.numericLiteral(MAX_LOOP_DURATION_MS),
+        //   ),
+        //   t.throwStatement(
+        //     t.newExpression(t.identifier('Error'), [
+        //       t.stringLiteral('Error: Infinite loop detected!'),
+        //     ]),
+        //   ),
+        // );
+        // 指定時間を超えたら window.__triggerLoopError() を呼び出す
         const checkStatement = t.ifStatement(
           t.binaryExpression(
             '>',
             t.binaryExpression('-', dateNowExpr, startVar),
             t.numericLiteral(MAX_LOOP_DURATION_MS),
           ),
-          t.throwStatement(t.newExpression(t.identifier('Error'), [t.stringLiteral('Error: Infinite loop detected!')])),
+          t.blockStatement([
+            t.expressionStatement(
+              t.callExpression(t.memberExpression(t.identifier('window'), t.identifier('__triggerLoopError')), []),
+            ),
+          ]),
         );
 
         if (!t.isBlockStatement(path.node.body)) {
@@ -37,8 +108,7 @@ const loopProtectPlugin = function ({ types: t }) {
   };
 };
 
-// p5 Wrapper
-// ----------------------------------------------------
+// --- p5 Wrapper ---
 const P5_ORIGINAL = window.p5;
 const P5_INSTANCES = new Set();
 
@@ -53,8 +123,7 @@ WrappedP5.prototype.constructor = WrappedP5;
 Object.setPrototypeOf(WrappedP5, P5_ORIGINAL);
 window.p5 = WrappedP5;
 
-// Run Sketch
-// ----------------------------------------------------
+// --- Run Sketch ---
 function runSketch(code) {
   P5_INSTANCES.forEach((instance) => instance.remove?.());
   P5_INSTANCES.clear();
@@ -90,9 +159,12 @@ function runSketch(code) {
   document.body.removeChild(script);
 }
 
+// --- Message Handlers ---
 const messageHandlers = {
   loadSketch: (data) => {
-    if (typeof data.code === 'string') runSketch(data.code);
+    if (typeof data.code === 'string') {
+      runSketch(data.code);
+    }
   },
   setLoop: (data) => {
     if (typeof data.isLoop === 'boolean') {
@@ -109,18 +181,18 @@ window.addEventListener('message', (e) => {
     return;
   }
 
-  return;
-
   const handler = messageHandlers[data.type];
-  if (handler) {
-    handler(data);
-  } else {
-    console.warn('[sandbox.js] Unknown message type:', data.type);
-  }
+  handler ? handler(data) : console.warn('[sandbox.js] Unknown message type:', data.type);
+
+  // const handler = messageHandlers[data.type];
+  // if (handler) {
+  //   handler(data);
+  // } else {
+  //   console.warn('[sandbox.js] Unknown message type:', data.type);
+  // }
 });
 
-// Canvas Size Observer
-// ----------------------------------------------------
+// --- Canvas Size Observer ---
 const reportSize = (canvas) => {
   window.parent.postMessage(
     {
@@ -139,7 +211,9 @@ const domObserver = new MutationObserver((mutations, obs) => {
 
   for (const node of addedElements) {
     const canvas = node.nodeName === 'CANVAS' ? node : node.querySelector('canvas');
-    if (!canvas) continue;
+    if (!canvas) {
+      continue;
+    }
 
     canvas.style.maxWidth = '100%';
     canvas.style.height = 'auto';
