@@ -19,7 +19,7 @@
 
 ```inject:./components/sketchSandboxComponent.js
 {
-  "modulePath": "../content/sketches/mySketch01_b.js",
+  "modulePath": "./content/sketches/mySketch01_b.js",
   "playBtnDisabled": false,
   "resetBtnDisabled": false
 }
@@ -36,7 +36,7 @@
 
 ```inject:./components/sketchSandboxComponent.js
 {
-  "modulePath": "../content/sketches/mySketch02_b.js"
+  "modulePath": "./content/sketches/mySketch02_b.js"
 }
 ```
 
