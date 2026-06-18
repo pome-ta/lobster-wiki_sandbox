@@ -1,6 +1,6 @@
 import * as Babel from '@babel/standalone';
 
-const MAX_LOOP_DURATION_MS = 100;
+const MAX_LOOP_DURATION_MS = 200;
 
 window.__triggerLoopError = () => {
   console.warn('[sandbox.js] Infinite loop prevented!');
@@ -23,24 +23,6 @@ window.__triggerLoopError = () => {
     'justify-content': 'space-between',
     'align-items': 'clearInterval',
   });
-
-  // warningDiv.style.cssText = `
-  //   position: fixed;
-  //   top: 0;
-  //   left: 0;
-  //   width: 100%;
-  //   background-color: rgba(220, 53, 69, 0.64);
-  //   color: white;
-  //   font-family: sans-serif;
-  //   font-size: 14px;
-  //   padding: 12px 20px;
-  //   box-sizing: border-box;
-  //   z-index: 9999;
-  //   display: flex;
-  //   justify-content: space-between;
-  //   align-items: center;
-  //   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  // `;
 
   warningDiv.innerHTML = `
   <span><strong>⚠️ 警告:</strong> 処理が重すぎるか、無限ループの可能性があるため実行を停止</span>
@@ -71,20 +53,7 @@ const loopProtectPlugin = function ({ types: t }) {
         const startVar = path.scope.generateUidIdentifier('loopStart');
         path.insertBefore(t.variableDeclaration('const', [t.variableDeclarator(startVar, dateNowExpr)]));
 
-        // 指定時間を超えたらエラーを投げる
-        // const checkStatement = t.ifStatement(
-        //   t.binaryExpression(
-        //     '>',
-        //     t.binaryExpression('-', dateNowExpr, startVar),
-        //     t.numericLiteral(MAX_LOOP_DURATION_MS),
-        //   ),
-        //   t.throwStatement(
-        //     t.newExpression(t.identifier('Error'), [
-        //       t.stringLiteral('Error: Infinite loop detected!'),
-        //     ]),
-        //   ),
-        // );
-        // 指定時間を超えたら window.__triggerLoopError() を呼び出す
+        // 指定時間を超えたら window.__triggerLoopError() を呼び出す
         const checkStatement = t.ifStatement(
           t.binaryExpression(
             '>',
@@ -183,13 +152,6 @@ window.addEventListener('message', (e) => {
 
   const handler = messageHandlers[data.type];
   handler ? handler(data) : console.warn('[sandbox.js] Unknown message type:', data.type);
-
-  // const handler = messageHandlers[data.type];
-  // if (handler) {
-  //   handler(data);
-  // } else {
-  //   console.warn('[sandbox.js] Unknown message type:', data.type);
-  // }
 });
 
 // --- Canvas Size Observer ---

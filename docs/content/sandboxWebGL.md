@@ -3,7 +3,7 @@
 ```inject:./components/sketchSandboxComponent.js
 {
   "sketchPath": "./content/sketches/s0_00_00_b.js",
-  "playBtnDisabled": true,
+  "loopBtnDisabled": true,
   "resetBtnDisabled": false
 }
 ```
@@ -20,7 +20,7 @@
 ```inject:./components/sketchSandboxComponent.js
 {
   "sketchPath": "./content/sketches/mySketch01_b.js",
-  "playBtnDisabled": false,
+  "loopBtnDisabled": false,
   "resetBtnDisabled": false
 }
 ```

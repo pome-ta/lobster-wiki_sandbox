@@ -22,16 +22,6 @@ async function fetchSourceCode(path) {
 function createSandbox() {
   const sb = document.createElement('iframe');
 
-  // const attrs = {
-  //   id: 'sandbox',
-  //   sandbox: 'allow-same-origin allow-scripts',
-  //   allow:
-  //     'accelerometer; ambient-light-sensor; autoplay; bluetooth; camera; encrypted-media; geolocation; gyroscope; hid; microphone; magnetometer; midi; payment; usb; serial; vr; xr-spatial-tracking',
-  //   loading: 'lazy',
-  //   src: './components/sandbox.html',
-  // };
-  //Object.entries(attrs).forEach(([key, value]) => sb.setAttribute(key, value));
-
   Object.entries({
     id: 'sandbox',
     sandbox: 'allow-same-origin allow-scripts',
@@ -53,14 +43,14 @@ function createSandbox() {
   return sb;
 }
 
-export default async function mount(container, { sketchPath, playBtnDisabled = false, resetBtnDisabled = false }) {
+export default async function mount(container, { sketchPath, loopBtnDisabled = false, resetBtnDisabled = false }) {
   const sourceCode = await fetchSourceCode(sketchPath);
   let isLoop = false;
 
   // --- UI Elements ---
-  const playBtn = document.createElement('button');
-  playBtn.textContent = loop;
-  playBtn.disabled = playBtnDisabled;
+  const loopBtn = document.createElement('button');
+  loopBtn.textContent = loop;
+  loopBtn.disabled = loopBtnDisabled;
 
   const resetBtn = document.createElement('button');
   resetBtn.textContent = 'reset';
@@ -83,7 +73,7 @@ export default async function mount(container, { sketchPath, playBtnDisabled = f
   });
 
   container.classList.add('lbs-details');
-  [details, playBtn, resetBtn].forEach((el) => flexDiv.appendChild(el));
+  [details, loopBtn, resetBtn].forEach((el) => flexDiv.appendChild(el));
   container.appendChild(flexDiv);
 
   // --- iframe State ---
@@ -109,7 +99,7 @@ export default async function mount(container, { sketchPath, playBtnDisabled = f
       }
       sandboxWrapper.style.width = '';
       sandboxWrapper.style.aspectRatio = '';
-      await sleep(10);
+      await sleep(4);
     }
 
     sketchSandbox = createSandbox();
@@ -139,9 +129,9 @@ export default async function mount(container, { sketchPath, playBtnDisabled = f
       );
     });
 
-    playBtn.textContent = isLoop ? pause : loop;
+    loopBtn.textContent = isLoop ? pause : loop;
     await loadPromise;
-    
+
     sketchSandbox?.contentWindow?.postMessage({ type: 'setLoop', isLoop }, '*');
   }
 
@@ -152,10 +142,10 @@ export default async function mount(container, { sketchPath, playBtnDisabled = f
     detailsControl(e.target.open, summary, sandboxWrapper);
   });
 
-  playBtn.addEventListener('click', () => {
+  loopBtn.addEventListener('click', () => {
     isLoop = !isLoop;
     sketchSandbox?.contentWindow?.postMessage({ type: 'setLoop', isLoop }, '*');
-    playBtn.textContent = isLoop ? pause : loop;
+    loopBtn.textContent = isLoop ? pause : loop;
   });
 
   resetBtn.addEventListener('click', async () => {
