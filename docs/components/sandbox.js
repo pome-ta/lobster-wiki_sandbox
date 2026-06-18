@@ -25,7 +25,7 @@ window.__triggerLoopError = () => {
   });
 
   warningDiv.innerHTML = `
-  <span><strong>⚠️ 警告:</strong> 実行を停止 --- 高負担処理、または無限ループの可能性</span>
+  <span><strong>⚠️: </strong>実行を停止 --- 高負担処理、または無限ループの可能性</span>
     <button id="close-loop-error" style="background: none; border: none; color: white; cursor: pointer; font-size: 1rem; padding: 0;"> ✕ </button>
   `;
 
