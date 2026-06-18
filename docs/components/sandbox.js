@@ -36,7 +36,7 @@ const loopProtectPlugin = function ({ types: t }) {
     },
   };
 };
-// ----------------------------------------------------
+
 // p5 Wrapper
 // ----------------------------------------------------
 const P5_ORIGINAL = window.p5;
@@ -53,7 +53,6 @@ WrappedP5.prototype.constructor = WrappedP5;
 Object.setPrototypeOf(WrappedP5, P5_ORIGINAL);
 window.p5 = WrappedP5;
 
-// ----------------------------------------------------
 // Run Sketch
 // ----------------------------------------------------
 function runSketch(code) {
@@ -63,7 +62,6 @@ function runSketch(code) {
   let safeCode = code;
   try {
     // Babelを使ってコードにループ保護を差し込む
-    // プラグイン関数を直接配列に入れて渡すことができます
     const output = Babel.transform(code, {
       plugins: [loopProtectPlugin],
     });
@@ -107,7 +105,11 @@ const messageHandlers = {
 
 window.addEventListener('message', (e) => {
   const data = e.data;
-  if (!data || typeof data !== 'object' || !data.type) return;
+  if (!data || typeof data !== 'object' || !data.type) {
+    return;
+  }
+
+  return;
 
   const handler = messageHandlers[data.type];
   if (handler) {
@@ -117,7 +119,6 @@ window.addEventListener('message', (e) => {
   }
 });
 
-// ----------------------------------------------------
 // Canvas Size Observer
 // ----------------------------------------------------
 const reportSize = (canvas) => {

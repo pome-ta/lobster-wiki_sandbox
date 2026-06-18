@@ -30,7 +30,16 @@ function createSandbox() {
     loading: 'lazy',
     src: './components/sandbox.html',
   };
-  Object.entries(attrs).forEach(([key, value]) => sb.setAttribute(key, value));
+  //Object.entries(attrs).forEach(([key, value]) => sb.setAttribute(key, value));
+
+  Object.entries({
+    id: 'sandbox',
+    sandbox: 'allow-same-origin allow-scripts',
+    allow:
+      'accelerometer; ambient-light-sensor; autoplay; bluetooth; camera; encrypted-media; geolocation; gyroscope; hid; microphone; magnetometer; midi; payment; usb; serial; vr; xr-spatial-tracking',
+    loading: 'lazy',
+    src: './components/sandbox.html',
+  }).forEach(([key, value]) => sb.setAttribute(key, value));
 
   Object.assign(sb.style, {
     position: 'absolute',
