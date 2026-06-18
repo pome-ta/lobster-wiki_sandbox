@@ -1,5 +1,44 @@
-console.log('sandbox');
+import * as Babel from '@babel/standalone';
 
+const MAX_LOOP_DURATION_MS = 200;
+// 無限ループ保護用 Babel プラグイン (AST解析と書き換え)
+// ----------------------------------------------------
+const loopProtectPlugin = function ({ types: t }) {
+  return {
+    visitor: {
+      Loop(path) {
+        if (path.node._loopProtectProcessed) {
+          return;
+        }
+        path.node._loopProtectProcessed = true;
+        const dateNowExpr = t.callExpression(t.memberExpression(t.identifier('Date'), t.identifier('now')), []);
+
+        // ループ開始時間を記録
+        const startVar = path.scope.generateUidIdentifier('loopStart');
+        path.insertBefore(t.variableDeclaration('const', [t.variableDeclarator(startVar, dateNowExpr)]));
+
+        // 指定時間を超えたらエラーを投げる
+        const checkStatement = t.ifStatement(
+          t.binaryExpression(
+            '>',
+            t.binaryExpression('-', dateNowExpr, startVar),
+            t.numericLiteral(MAX_LOOP_DURATION_MS),
+          ),
+          t.throwStatement(t.newExpression(t.identifier('Error'), [t.stringLiteral('Error: Infinite loop detected!')])),
+        );
+
+        if (!t.isBlockStatement(path.node.body)) {
+          path.node.body = t.blockStatement([path.node.body]);
+        }
+
+        path.node.body.body.unshift(checkStatement);
+      },
+    },
+  };
+};
+// ----------------------------------------------------
+// p5 Wrapper
+// ----------------------------------------------------
 const P5_ORIGINAL = window.p5;
 const P5_INSTANCES = new Set();
 
@@ -14,15 +53,31 @@ WrappedP5.prototype.constructor = WrappedP5;
 Object.setPrototypeOf(WrappedP5, P5_ORIGINAL);
 window.p5 = WrappedP5;
 
+// ----------------------------------------------------
+// Run Sketch
+// ----------------------------------------------------
 function runSketch(code) {
   P5_INSTANCES.forEach((instance) => instance.remove?.());
   P5_INSTANCES.clear();
+
+  let safeCode = code;
+  try {
+    // Babelを使ってコードにループ保護を差し込む
+    // プラグイン関数を直接配列に入れて渡すことができます
+    const output = Babel.transform(code, {
+      plugins: [loopProtectPlugin],
+    });
+    safeCode = output.code;
+  } catch (err) {
+    // 構文エラー時はそのまま流す
+    console.warn('[sandbox.js] Babel transform failed, running original code.', err);
+  }
 
   const script = document.createElement('script');
   script.type = 'text/javascript';
   script.textContent = `
     {
-      ${code}
+      ${safeCode}
     }
   `;
   document.body.appendChild(script);

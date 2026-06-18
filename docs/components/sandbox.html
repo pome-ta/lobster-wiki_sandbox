@@ -12,7 +12,8 @@
     <script type="importmap">
       {
         "imports": {
-          "eruda": "https://esm.sh/eruda"
+          "eruda": "https://esm.sh/eruda",
+          "@babel/standalone": "https://esm.sh/@babel/standalone"
         }
       }
     </script>
@@ -20,7 +21,7 @@
     <script type="module">
       import eruda from 'eruda';
 
-      //eruda.init();
+      eruda.init();
 
       const timeStr = new Date().toLocaleTimeString();
       const outLog = 'p5Canvas: ' + timeStr;

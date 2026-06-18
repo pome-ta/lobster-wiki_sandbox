@@ -13,7 +13,9 @@ const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 async function fetchSourceCode(path) {
   const res = await fetch(path);
-  if (!res.ok) throw new Error(`Failed to fetch: ${path}`);
+  if (!res.ok) {
+    throw new Error(`Failed to fetch: ${path}`);
+  }
   return await res.text();
 }
 
@@ -30,13 +32,6 @@ function createSandbox() {
   };
   Object.entries(attrs).forEach(([key, value]) => sb.setAttribute(key, value));
 
-  /*
-  Object.assign(sb.style, {
-    maxWidth: '100%',
-    border: 'none',
-    //backgroundColor: 'maroon',
-  });
-  */
   Object.assign(sb.style, {
     position: 'absolute',
     top: '0',
@@ -83,40 +78,46 @@ export default async function mount(container, { modulePath, playBtnDisabled = f
   container.appendChild(flexDiv);
 
   // --- iframe State ---
-  let sandboxWrapper = null;
   let sketchSandbox = null;
   let currentMessageHandler = null;
+
+  const sandboxWrapper = document.createElement('div');
+  Object.assign(sandboxWrapper.style, {
+    position: 'relative',
+    maxWidth: '100%',
+    // backgroundColor: 'maroon',
+    display: details.open ? '' : 'none',
+  });
+  container.appendChild(sandboxWrapper);
 
   async function initSketchSandbox() {
     if (sketchSandbox) {
       sketchSandbox.remove();
-      sandboxWrapper = null;
       sketchSandbox = null;
       if (currentMessageHandler) {
         window.removeEventListener('message', currentMessageHandler);
         currentMessageHandler = null;
       }
-      await sleep(100);
+      sandboxWrapper.style.width = '';
+      sandboxWrapper.style.aspectRatio = '';
+      await sleep(1);
     }
-    
-    /*
 
     sketchSandbox = createSandbox();
-    sketchSandbox.style.display = details.open ? '' : 'none';
-    
-    
+    sandboxWrapper.appendChild(sketchSandbox);
 
     currentMessageHandler = (e) => {
-      if (e.source !== sketchSandbox.contentWindow) return;
+      if (e.source !== sketchSandbox.contentWindow) {
+        return;
+      }
       const data = e.data;
 
       if (data?.type === 'resize') {
-        sketchSandbox.style.width = `${data.width}px`;
-        sketchSandbox.style.aspectRatio = `${data.width} / ${data.height}`;
+        sandboxWrapper.style.width = `${data.width}px`;
+        sandboxWrapper.style.aspectRatio = `${data.width} / ${data.height}`;
       }
     };
     window.addEventListener('message', currentMessageHandler);
-    
 
     const loadPromise = new Promise((resolve) => {
       sketchSandbox.addEventListener(
@@ -129,49 +130,6 @@ export default async function mount(container, { modulePath, playBtnDisabled = f
       );
     });
 
-    container.appendChild(sketchSandbox);
-    */
-    
-        // 🌟 1. まず外箱(Wrapper)を作る
-    sandboxWrapper = document.createElement('div');
-    Object.assign(sandboxWrapper.style, {
-      position: 'relative', // iframeの絶対配置の基準になる
-      maxWidth: '100%',
-      backgroundColor: 'maroon',
-      display: details.open ? '' : 'none',
-    });
-
-    // 🌟 2. iframeを作って外箱に入れる
-    sketchSandbox = createSandbox();
-    sandboxWrapper.appendChild(sketchSandbox);
-
-    // 🌟 3. 通信ハンドラ(サイズ変更は "外箱" に対して行う!)
-    currentMessageHandler = (e) => {
-      if (e.source !== sketchSandbox.contentWindow) return;
-      const data = e.data;
-
-      if (data?.type === 'resize') {
-        // iframeではなく、外側のDIVを変形させる
-        sandboxWrapper.style.width = `${data.width}px`;
-        sandboxWrapper.style.aspectRatio = `${data.width} / ${data.height}`;
-      }
-    };
-    window.addEventListener('message', currentMessageHandler);
-
-    const loadPromise = new Promise((resolve) => {
-      sketchSandbox.addEventListener('load', () => {
-        sketchSandbox.contentWindow.postMessage({ type: 'loadSketch', code: sourceCode }, '*');
-        resolve();
-      }, { once: true });
-    });
-
-    // 🌟 container には iframe ではなく Wrapper を追加する
-    container.appendChild(sandboxWrapper);
-    playBtn.textContent = isLoop ? pause : loop;
-    await loadPromise;
-  }
-
-  initSketchSandbox();
     playBtn.textContent = isLoop ? pause : loop;
     await loadPromise;
   }
@@ -180,7 +138,7 @@ export default async function mount(container, { modulePath, playBtnDisabled = f
 
   // --- Event Listeners ---
   details.addEventListener('toggle', (e) => {
-    detailsControl(e.target.open, summary, sketchSandbox);
+    detailsControl(e.target.open, summary, sandboxWrapper);
   });
 
   playBtn.addEventListener('click', () => {
