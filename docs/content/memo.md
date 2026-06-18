@@ -156,7 +156,10 @@ document.addEventListener("click", (e) => {
 │   │   ├── sampleButton.html
 │   │   ├── sampleButton.js
 │   │   ├── sampleSketchGlobalMode.js
-│   │   └── sampleSketchInstanceMode.js
+│   │   ├── sampleSketchInstanceMode.js
+│   │   ├── sandbox.html
+│   │   ├── sandbox.js
+│   │   └── sketchSandboxComponent.js
 │   ├── content/
 │   │   ├── customize/
 │   │   │   ├── fileSourceCode.md
@@ -204,6 +207,8 @@ document.addEventListener("click", (e) => {
 └── README.md
 
 ```
+（前どうやって記載したか忘れて、更新するの面倒やん。。。）
+
 
 ### lobster-wiki
 
@@ -233,16 +238,31 @@ document.addEventListener("click", (e) => {
 1. `sketchPath` : sketch code のファイルパス
   - root からのディレクトリで、パスを指定
   - instance mode 、global mode どちらでも実行可能
-2. 
+2. `loopBtnDisabled` : loop ボタンが使用できるかどうか
+  - 省略可能
+  - デフォルトは`false`
+3. `resetBtnDisabled` : reset ボタンが使用できるかどうか
+  - 省略可能
+  - デフォルトは`false`
+
+**JSON** 形式で記述すること。`"` やケツカンマなど気を付ける。
+
+例：
+
+````
+```inject:./components/sketchSandboxComponent.js
+{
+  "sketchPath": "./content/sketches/s0_00_00_b.js",
+  "loopBtnDisabled": true,
+  "resetBtnDisabled": false
+}
+```
+````
 
 
 
 ### sandbox 化
 
 `iframe` に sketch の描画を隔離、各自の実行インスタンスで処理。描画生成時は`noLoop` で、`draw` ループを止めている。
+`iframe` へ逃すことで、instance mode でもglobal mode でも実行できるようになった。
 
-
-wiki 側の操作でループの on/off 、再描画指示、sketch の表示・非表示
-
-
-高負担な処理でなければ、

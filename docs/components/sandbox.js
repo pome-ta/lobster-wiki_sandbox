@@ -25,7 +25,7 @@ window.__triggerLoopError = () => {
   });
 
   warningDiv.innerHTML = `
-  <span><strong>⚠️ 警告:</strong> 処理が重すぎるか、無限ループの可能性があるため実行を停止</span>
+  <span><strong>⚠️ 警告:</strong> 実行を停止 --- 高負担処理、または無限ループの可能性</span>
     <button id="close-loop-error" style="background: none; border: none; color: white; cursor: pointer; font-size: 1rem; padding: 0;"> ✕ </button>
   `;
 
@@ -47,11 +47,18 @@ const loopProtectPlugin = function ({ types: t }) {
           return;
         }
         path.node._loopProtectProcessed = true;
-        const dateNowExpr = t.callExpression(t.memberExpression(t.identifier('Date'), t.identifier('now')), []);
+        const dateNowExpr = t.callExpression(
+          t.memberExpression(t.identifier('Date'), t.identifier('now')),
+          [],
+        );
 
         // ループ開始時間を記録
         const startVar = path.scope.generateUidIdentifier('loopStart');
-        path.insertBefore(t.variableDeclaration('const', [t.variableDeclarator(startVar, dateNowExpr)]));
+        path.insertBefore(
+          t.variableDeclaration('const', [
+            t.variableDeclarator(startVar, dateNowExpr),
+          ]),
+        );
 
         // 指定時間を超えたら window.__triggerLoopError() を呼び出す
         const checkStatement = t.ifStatement(
@@ -62,7 +69,13 @@ const loopProtectPlugin = function ({ types: t }) {
           ),
           t.blockStatement([
             t.expressionStatement(
-              t.callExpression(t.memberExpression(t.identifier('window'), t.identifier('__triggerLoopError')), []),
+              t.callExpression(
+                t.memberExpression(
+                  t.identifier('window'),
+                  t.identifier('__triggerLoopError'),
+                ),
+                [],
+              ),
             ),
           ]),
         );
@@ -106,7 +119,10 @@ function runSketch(code) {
     safeCode = output.code;
   } catch (err) {
     // 構文エラー時はそのまま流す
-    console.warn('[sandbox.js] Babel transform failed, running original code.', err);
+    console.warn(
+      '[sandbox.js] Babel transform failed, running original code.',
+      err,
+    );
   }
 
   const script = document.createElement('script');
@@ -151,7 +167,9 @@ window.addEventListener('message', (e) => {
   }
 
   const handler = messageHandlers[data.type];
-  handler ? handler(data) : console.warn('[sandbox.js] Unknown message type:', data.type);
+  handler
+    ? handler(data)
+    : console.warn('[sandbox.js] Unknown message type:', data.type);
 });
 
 // --- Canvas Size Observer ---
@@ -172,7 +190,8 @@ const domObserver = new MutationObserver((mutations, obs) => {
     .filter((node) => node.nodeType === Node.ELEMENT_NODE);
 
   for (const node of addedElements) {
-    const canvas = node.nodeName === 'CANVAS' ? node : node.querySelector('canvas');
+    const canvas =
+      node.nodeName === 'CANVAS' ? node : node.querySelector('canvas');
     if (!canvas) {
       continue;
     }

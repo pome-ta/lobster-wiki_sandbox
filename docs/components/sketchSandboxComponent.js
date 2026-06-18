@@ -2,7 +2,8 @@ const pause = 'pause';
 const loop = 'loop';
 const initDetailsOpen = false;
 
-const summaryTextContent = (bool) => `sketch: (tap to ${bool ? 'hide' : 'show'})`;
+const summaryTextContent = (bool) =>
+  `sketch: (tap to ${bool ? 'hide' : 'show'})`;
 
 const detailsControl = (isDetailsOpen, summaryElement, divElement) => {
   summaryElement.textContent = summaryTextContent(isDetailsOpen);
@@ -43,7 +44,10 @@ function createSandbox() {
   return sb;
 }
 
-export default async function mount(container, { sketchPath, loopBtnDisabled = false, resetBtnDisabled = false }) {
+export default async function mount(
+  container,
+  { sketchPath, loopBtnDisabled = false, resetBtnDisabled = false },
+) {
   const sourceCode = await fetchSourceCode(sketchPath);
   let isLoop = false;
 
@@ -122,7 +126,10 @@ export default async function mount(container, { sketchPath, loopBtnDisabled = f
       sketchSandbox.addEventListener(
         'load',
         () => {
-          sketchSandbox.contentWindow.postMessage({ type: 'loadSketch', code: sourceCode }, '*');
+          sketchSandbox.contentWindow.postMessage(
+            { type: 'loadSketch', code: sourceCode },
+            '*',
+          );
           resolve();
         },
         { once: true },
