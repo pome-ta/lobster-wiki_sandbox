@@ -50,7 +50,7 @@
 - [test-sketchComponent](?page=sketches/test-sketchComponent)
   :::
 
-- ts
+:::details `@typescript/vfs'`
   - [00](?page=typescript-vfs/s00)
   - [01](?page=typescript-vfs/s01)
   - [02](?page=typescript-vfs/s02)
@@ -61,6 +61,7 @@
   - [07](?page=typescript-vfs/s07)
   - [08](?page=typescript-vfs/s08)
   - [09](?page=typescript-vfs/s09)
+ :::
  
 - [memo](?page=memo)
 
