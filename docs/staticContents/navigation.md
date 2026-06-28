@@ -51,6 +51,7 @@
   :::
 
 :::details `@typescript/vfs'`
+  - [TSDoc](?page=typescript-vfs/tsdoc)
   - [00](?page=typescript-vfs/s00)
   - [01](?page=typescript-vfs/s01)
   - [02](?page=typescript-vfs/s02)
@@ -61,6 +62,9 @@
   - [07](?page=typescript-vfs/s07)
   - [08](?page=typescript-vfs/s08)
   - [09](?page=typescript-vfs/s09)
+  - [10](?page=typescript-vfs/s10)
+  - [11](?page=typescript-vfs/s11)
+  - [12](?page=typescript-vfs/s12)
  :::
  
 - [memo](?page=memo)
