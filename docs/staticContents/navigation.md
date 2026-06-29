@@ -52,6 +52,7 @@
 
 :::details `@typescript/vfs'`
   - [TSDoc](?page=typescript-vfs/tsdoc)
+  - [memo](?page=typescript-vfs/memo)  
   - [00](?page=typescript-vfs/s00)
   - [01](?page=typescript-vfs/s01)
   - [02](?page=typescript-vfs/s02)
